@@ -13,7 +13,6 @@
 #include "HeaderCodes/Mesher.h"
 #include "HeaderCodes/PostProcessing.h"
 #include "HeaderCodes/Solver.h"
-//#include "HeaderCodes/CalculoCD.h"
 
 using namespace std;
 
@@ -36,12 +35,13 @@ Mesher MESH(M1, R1, MPI1, DIRECTORIO);
 MESH.ExecuteMesher(M1, MPI1);
 
 MPI_Barrier(MPI_COMM_WORLD);
-/*
+
 PostProcessing POST1(M1, R1, MESH, DIRECTORIO);
 
 Solver S1(M1, R1, MPI1, MESH, POST1, DIRECTORIO);
+
 S1.ExecuteSolver(M1, MPI1, MESH, POST1);
-*/
+
 MPI_Finalize();
 
 return 0;
