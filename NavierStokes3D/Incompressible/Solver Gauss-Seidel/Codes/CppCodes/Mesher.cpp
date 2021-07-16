@@ -102,7 +102,7 @@ void Mesher::AllocateMemory(Memory M1){
 
 	//Matrices del Mallado del problema
 	MP = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz de presión/temperatura
-/*	MU = M1.AllocateDouble(NX + 1 + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz velocidad U
+	MU = M1.AllocateDouble(NX + 1 + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz velocidad U
 	MV = M1.AllocateDouble(NX + 2*HP, NY + 1 + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz velocidad V
 	MW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 1 + 2*HP, 3); //Coordenadas matriz velocidad W
 
@@ -141,7 +141,7 @@ void Mesher::AllocateMemory(Memory M1){
 	VolMU = M1.AllocateDouble(NX+1 + 2*HP, NY + 2*HP, NZ + 2*HP, 1); //Volúmenes de los volúmenes de la matriz de velocidades (U)
 	VolMV = M1.AllocateDouble(NX + 2*HP, NY+1 + 2*HP, NZ + 2*HP, 1); //Volúmenes de los volúmenes de la matriz de velocidades (V)
 	VolMW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ+1, 1); //Volúmenes de los volúmenes de la matriz de velocidades (W)
-*/
+
 }
 
 //Creación de todas las mallas de tipo Staggered
@@ -974,16 +974,15 @@ int i, j, k;
 
 	MPI1.Initial_WorkSplit(NX, Ix, Fx);
 	
-	cout<<"Rank: "<<Rank<<", Ix: "<<Ix<<", Fx: "<<Fx<<endl;
 	AllocateMemory(M1); //Alojamiento de memoria para cada matriz 
-	//Get_Meshes(); //Creación de todas las mallas
-	//Get_Deltas(); //Cálculo de las distancias entre nodos en cada una de las matrices
-	//Get_Surfaces(); //Cálculo de las superficies de cada uno de los volúmenes de control
-	//Get_Volumes(); //Cálculo de los volúmenes de control de cada volúmen
+	Get_Meshes(); //Creación de todas las mallas
+	Get_Deltas(); //Cálculo de las distancias entre nodos en cada una de las matrices
+	Get_Surfaces(); //Cálculo de las superficies de cada uno de los volúmenes de control
+	Get_Volumes(); //Cálculo de los volúmenes de control de cada volúmen
 
 	if(Rank == 0){	
-		//PrintTxt(); //Pasar los resultados de las mallas a un txt
-		//MallaVTK3D("ParaviewResults/MeshResults/", "MallaP", "MallaMP", MP, NX, NY, NZ);
+		PrintTxt(); //Pasar los resultados de las mallas a un txt
+		MallaVTK3D("ParaviewResults/MeshResults/", "MallaP", "MallaMP", MP, NX, NY, NZ);
 		cout<<"Mesh created."<<endl;
 	}
 

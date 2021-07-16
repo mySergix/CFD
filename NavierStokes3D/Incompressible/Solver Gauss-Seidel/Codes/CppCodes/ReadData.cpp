@@ -17,7 +17,7 @@ using namespace std;
 //Constructor del lector de datos
 ReadData::ReadData(Memory M1, string InputDirectorio){
 
-	DIRECTORIO = InputDirectorio;
+	DIRECTORIO = InputDirectorio + "InputData/";
 
 	GeometryData = M1.AllocateDouble(7, 1, 1, 1); //Datos de la geometría del problema
 	ProblemNumericalData = M1.AllocateInt(10, 1, 1, 1); //Datos numéricos del problema
@@ -67,7 +67,7 @@ string FinalName1;
 	FinalName1=InitialName1.str();
 	
 	ifstream DatosProblema(FinalName1.c_str());
-
+	
 		if (DatosProblema){
         		string line;
         		while (getline(DatosProblema, line)){
