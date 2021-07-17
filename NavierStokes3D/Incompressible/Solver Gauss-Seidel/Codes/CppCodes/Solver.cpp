@@ -7815,26 +7815,26 @@ int i, j, k;
 
 	//Comunicación de velocidades entre los procesos
 	MPI1.CommunicateDataLU(ULPRES, ULPRES, Ix, Fx); //Enviar Velocidades U
-//	MPI1.CommunicateDataLV(VLPRES, VLPRES, Ix, Fx); //Enviar Velocidades V
-//	MPI1.CommunicateDataLW(WLPRES, WLPRES, Ix, Fx); //Enviar Velocidades W
+	MPI1.CommunicateDataLV(VLPRES, VLPRES, Ix, Fx); //Enviar Velocidades V
+	MPI1.CommunicateDataLW(WLPRES, WLPRES, Ix, Fx); //Enviar Velocidades W
 
 	Get_DiffusiveU(MESH, ULPRES);
-//	Get_DiffusiveV(MESH, VLPRES);
-//	Get_DiffusiveW(MESH, WLPRES);
+	Get_DiffusiveV(MESH, VLPRES);
+	Get_DiffusiveW(MESH, WLPRES);
 
-//	Get_ConvectiveU(MESH, ULPRES, VLPRES, WLPRES);
-//	Get_ConvectiveV(MESH, ULPRES, VLPRES, WLPRES);
-//	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
-/*
+	Get_ConvectiveU(MESH, ULPRES, VLPRES, WLPRES);
+	Get_ConvectiveV(MESH, ULPRES, VLPRES, WLPRES);
+	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
+
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY; j++){
-				K1_U[LUC(i,j,k,0)] = //- ConvectiveU[LUC(i,j,k,0)] + ;
+				K1_U[LUC(i,j,k,0)] = - ConvectiveU[LUC(i,j,k,0)] + DiffusiveU[LUC(i,j,k,0)];
 			}
 		}
-	}*/
-/*
+	}
+
 	//Velocidades V
 	switch(Problema){
 		case 1:
@@ -7843,7 +7843,7 @@ int i, j, k;
 		for(i = Ix; i < Fx; i++){
 			for(k = 0; k < NZ; k++){
 				for(j = 0; j < NY + 1; j++){
-					K1_V[LVC(i,j,k,0)] = 0.0;//- ConvectiveV[LVC(i,j,k,0)] + DiffusiveV[LVC(i,j,k,0)];
+					K1_V[LVC(i,j,k,0)] = - ConvectiveV[LVC(i,j,k,0)] + DiffusiveV[LVC(i,j,k,0)];
 				}
 			}
 		}
@@ -7863,18 +7863,18 @@ int i, j, k;
 
 		break;
 	}
-	*/
-/*
+	
+
 	//Velocidades W
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ + 1; k++){
 			for(j = 0; j < NY; j++){
-				K1_W[LWC(i,j,k,0)] = 0.0;//- ConvectiveW[LWC(i,j,k,0)] + DiffusiveW[LWC(i,j,k,0)];
+				K1_W[LWC(i,j,k,0)] = - ConvectiveW[LWC(i,j,k,0)] + DiffusiveW[LWC(i,j,k,0)];
 			}
 		}
 	}
-*/
-/*
+
+
 	//CÁLCULO DE K2
 
 	//Cálculo de las nuevas velocidades intermedias
@@ -7912,13 +7912,13 @@ int i, j, k;
 	MPI1.CommunicateDataLV(VL_NEW, VL_NEW, Ix, Fx); //Enviar Velocidades V
 	MPI1.CommunicateDataLW(WL_NEW, WL_NEW, Ix, Fx); //Enviar Velocidades W
 
-	//Get_DiffusiveU(MESH, UL_NEW);
-	//Get_DiffusiveV(MESH, VL_NEW);
-	//Get_DiffusiveW(MESH, WL_NEW);
+	Get_DiffusiveU(MESH, UL_NEW);
+	Get_DiffusiveV(MESH, VL_NEW);
+	Get_DiffusiveW(MESH, WL_NEW);
 
-	//Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
 
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
@@ -8004,13 +8004,13 @@ int i, j, k;
 	MPI1.CommunicateDataLV(VL_NEW, VL_NEW, Ix, Fx); //Enviar Velocidades V
 	MPI1.CommunicateDataLW(WL_NEW, WL_NEW, Ix, Fx); //Enviar Velocidades W
 
-	//Get_DiffusiveU(MESH, UL_NEW);
-	//Get_DiffusiveV(MESH, VL_NEW);
-	//Get_DiffusiveW(MESH, WL_NEW);
+	Get_DiffusiveU(MESH, UL_NEW);
+	Get_DiffusiveV(MESH, VL_NEW);
+	Get_DiffusiveW(MESH, WL_NEW);
 
-	//Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
 
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
@@ -8095,13 +8095,13 @@ int i, j, k;
 	MPI1.CommunicateDataLV(VL_NEW, VL_NEW, Ix, Fx); //Enviar Velocidades V
 	MPI1.CommunicateDataLW(WL_NEW, WL_NEW, Ix, Fx); //Enviar Velocidades W
 
-	//Get_DiffusiveU(MESH, UL_NEW);
-	//Get_DiffusiveV(MESH, VL_NEW);
-	//Get_DiffusiveW(MESH, WL_NEW);
+	Get_DiffusiveU(MESH, UL_NEW);
+	Get_DiffusiveV(MESH, VL_NEW);
+	Get_DiffusiveW(MESH, WL_NEW);
 
-	//Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
-	//Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveU(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveV(MESH, UL_NEW, VL_NEW, WL_NEW);
+	Get_ConvectiveW(MESH, UL_NEW, VL_NEW, WL_NEW);
 
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
@@ -8149,25 +8149,23 @@ int i, j, k;
 			}
 		}
 	}
-*/
+
 	//CÁLCULO DE LAS VELOCIDADES PREDICTORAS CON RUNGE KUTTA
 	
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY; j++){
-			//	PredU[LUC(i,j,k,0)] = ULPRES[LUC(i,j,k,0)] + DeltaT*(b1*K1_U[LUC(i,j,k,0)] + b2*K2_U[LUC(i,j,k,0)] + b3*K3_U[LUC(i,j,k,0)] + b4*K4_U[LUC(i,j,k,0)]);
-				PredU[LUC(i,j,k,0)] = ULPRES[LUC(i,j,k,0)] + DeltaT*(DiffusiveU[LUC(i,j,k,0)]);
+				PredU[LUC(i,j,k,0)] = ULPRES[LUC(i,j,k,0)] + DeltaT*(b1*K1_U[LUC(i,j,k,0)] + b2*K2_U[LUC(i,j,k,0)] + b3*K3_U[LUC(i,j,k,0)] + b4*K4_U[LUC(i,j,k,0)]);
 			}
 		}
 	}
-/*
+
 	//Velocidades V
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY + 1; j++){
-			//	PredV[LVC(i,j,k,0)] = VLPRES[LVC(i,j,k,0)] + DeltaT*(b1*K1_V[LVC(i,j,k,0)] + b2*K2_V[LVC(i,j,k,0)] + b3*K3_V[LVC(i,j,k,0)] + b4*K4_V[LVC(i,j,k,0)]);
-				PredV[LVC(i,j,k,0)] = VLPRES[LVC(i,j,k,0)] + DeltaT*(K1_V[LVC(i,j,k,0)]);
+				PredV[LVC(i,j,k,0)] = VLPRES[LVC(i,j,k,0)] + DeltaT*(b1*K1_V[LVC(i,j,k,0)] + b2*K2_V[LVC(i,j,k,0)] + b3*K3_V[LVC(i,j,k,0)] + b4*K4_V[LVC(i,j,k,0)]);
 			}
 		}
 	}
@@ -8176,15 +8174,14 @@ int i, j, k;
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ + 1; k++){
 			for(j = 0; j < NY; j++){
-			//	PredW[LWC(i,j,k,0)] = WLPRES[LWC(i,j,k,0)] + DeltaT*(b1*K1_W[LWC(i,j,k,0)] + b2*K2_W[LWC(i,j,k,0)] + b3*K3_W[LWC(i,j,k,0)] + b4*K4_W[LWC(i,j,k,0)]);
-				PredW[LWC(i,j,k,0)] = WLPRES[LWC(i,j,k,0)] + DeltaT*(K1_W[LWC(i,j,k,0)]);	
+				PredW[LWC(i,j,k,0)] = WLPRES[LWC(i,j,k,0)] + DeltaT*(b1*K1_W[LWC(i,j,k,0)] + b2*K2_W[LWC(i,j,k,0)] + b3*K3_W[LWC(i,j,k,0)] + b4*K4_W[LWC(i,j,k,0)]);
 			}
 		}
 	}
-*/
+
 }
-/*
-//Ejecución de la integración por RUnge - Kutta de las temperaturas
+
+//Ejecución de la integración por Runge - Kutta de las temperaturas
 void Solver::Get_RungeKuttaTemperature(Mesher MESH, ParPro MPI1){
 int i, j, k;
 
@@ -8295,7 +8292,7 @@ int i, j, k;
 	}
 
 }
-*/
+
 //Cálculo de la divergencia de la velocidad predictora (Término bp)
 void Solver::Get_PredictorsDivergence(Mesher MESH, ParPro MPI1){
 int i, j, k;
@@ -8303,13 +8300,13 @@ int i, j, k;
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY; j++){
-				bp[LAL(i,j,k,0)] = + (Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))*(1
-								  // - MESH.SupMP[GP(i,j,k,0)]*PredU[LUC(i,j,k,0)]
-								  // + MESH.SupMP[GP(i,j,k,1)]*PredU[LUC(i + 1,j,k,0)]
-								  // - MESH.SupMP[GP(i,j,k,2)]*PredV[LVC(i,j,k,0)]
-								  // + MESH.SupMP[GP(i,j,k,3)]*PredV[LVC(i,j + 1,k,0)]
-								  /// - MESH.SupMP[GP(i,j,k,4)]*PredW[LWC(i,j,k,0)]
-								  // + MESH.SupMP[GP(i,j,k,5)]*PredW[LWC(i,j,k + 1,0)]
+				bp[LAL(i,j,k,0)] = + (Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))*(
+								   - MESH.SupMP[GP(i,j,k,0)]*PredU[LUC(i,j,k,0)]
+								   + MESH.SupMP[GP(i,j,k,1)]*PredU[LUC(i + 1,j,k,0)]
+								   - MESH.SupMP[GP(i,j,k,2)]*PredV[LVC(i,j,k,0)]
+								   + MESH.SupMP[GP(i,j,k,3)]*PredV[LVC(i,j + 1,k,0)]
+								   - MESH.SupMP[GP(i,j,k,4)]*PredW[LWC(i,j,k,0)]
+								   + MESH.SupMP[GP(i,j,k,5)]*PredW[LWC(i,j,k + 1,0)]
 								   );
 			}
 		}
@@ -8656,12 +8653,11 @@ MaxDiffGS = 2.0*ConvergenciaGS;
 		}
 
 		Get_MaxDifGS(MPI1);
-		cout<<"MaxDiffGS: "<<MaxDiffGS<<endl;
 
 		for(i = Ix; i < Fx; i++){
 			for(j = 0; j < NY; j++){
 				for(k = 0; k < NZ; k++){
-				//	PLSUP[LPC(i,j,k,0)] = PLFUT[LPC(i,j,k,0)];
+					PLSUP[LPC(i,j,k,0)] = PLFUT[LPC(i,j,k,0)];
 				}
 			}
 		}
@@ -8895,22 +8891,7 @@ int i, j, k;
 		std::cout<<"Coeficientes generados \n";	
 	}
 
-	//if(Rank == 0){
-		//for(i = Ix; i < Fx; i++){
-		//	for(j = 0; j < NY; j++){
-			//	for(k = 0; k < NZ; k++){
-					//if(aw[LAL(i,j,k,0)] < 1.0){
-					//	cout<<"I: "<<i<<", J: "<<j<<", K: "<<endl;
-					//}
-					//cout<<"I: "<<i<<", J: "<<j<<", K: "<<k<<" \t "<<bp[LAL(i,j,k,0)]<<endl;
-			//	}
-			//}
-		//}
-	//}
-
-	
-
-	//while(MaxDiffGlobal >= ConvergenciaGlobal){
+	while(MaxDiffGlobal >= ConvergenciaGlobal){
 		
 		Step++;
 		Get_BoundaryConditions(MESH); //Actualizar condiciones de contorno
@@ -8922,38 +8903,20 @@ int i, j, k;
 			case 1: 
 			case 3:
 
-			//Get_RungeKuttaVelocities(MESH, MPI1);
+			Get_RungeKuttaVelocities(MESH, MPI1);
 			break;
 
 			case 2:
-			//Get_RungeKuttaVelocities(MESH, MPI1);
-			//Get_BoussinesqTerm(MESH);
-			//Get_RungeKuttaVelocities(MESH, MPI1);
+			Get_RungeKuttaVelocities(MESH, MPI1);
+			Get_BoussinesqTerm(MESH);
+			Get_RungeKuttaVelocities(MESH, MPI1);
 			break;
 		}
-Get_RungeKuttaVelocities(MESH, MPI1);
+
 		Get_PredictorsDivergence(MESH, MPI1); //Calculo bp
-		
-		//if(Rank == 1){
-		//	for(i = Ix; i < Fx; i++){
-				//for(j = 0; j < NY; j++){
-				//	for(k = 0; k < NZ; k++){
-						//if(aw[LAL(i,j,k,0)] < 1.0){
-						//	cout<<"I: "<<i<<", J: "<<j<<", K: "<<endl;
-						//}
-				//		cout<<"I: "<<i<<", J: "<<j<<", K: "<<k<<" \t "<<bp[LAL(i,j,k,0)]<<endl;
-				//	}
-				//}
-			//}
-		//}
-
-
-		cout<<"Antes"<<endl;
 		Get_GaussSeidel(MPI1); //Resolucion por GS
-		cout<<"Despues"<<endl;
+		Get_Velocities(MESH, MPI1); //Calculo de las velocidades
 
-		//Get_Velocities(MESH, MPI1); //Calculo de las velocidades
-/*
 		switch(Problema){
 			case 2:
 			Get_RungeKuttaTemperature(MESH, MPI1);
@@ -8971,15 +8934,15 @@ Get_RungeKuttaVelocities(MESH, MPI1);
 		
 		if(Step%StepsFile == 0){
 
+			//Envío Matrices Locales a Globales Presente
+			MPI1.SendMatrixToZeroMU(ULFUT, UGFUT, NX, NY, NZ, Procesos, Ix, Fx);
+			MPI1.SendMatrixToZeroMV(VLFUT, VGFUT, NX, NY, NZ, Procesos, Ix, Fx);
+			MPI1.SendMatrixToZeroMW(WLFUT, WGFUT, NX, NY, NZ, Procesos, Ix, Fx);
+
 			if(Rank == 0){
 
 				sprintf(FileName_1, "MapaPresiones_Step_%d", Step);
 				sprintf(FileName_2, "MapaVelocidades_Step_%d", Step);
-
-				//Envío Matrices Locales a Globales Presente
-				MPI1.SendMatrixToZeroMU(ULFUT, UGFUT, NX, NY, NZ, Procesos, Ix, Fx);
-				MPI1.SendMatrixToZeroMV(VLFUT, VGFUT, NX, NY, NZ, Procesos, Ix, Fx);
-				MPI1.SendMatrixToZeroMW(WLFUT, WGFUT, NX, NY, NZ, Procesos, Ix, Fx);
 
 				switch(Problema){
 
@@ -9009,8 +8972,8 @@ Get_RungeKuttaVelocities(MESH, MPI1);
 		}
 				
 		Get_Update();
-		*/
-	//}
+	
+	}
 	
 	if(Rank == 0){
 		cout<<"Solver Completed"<<endl;

@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define DIRECTORIO "/home_nobck/sergiogus/Incompressible3D/"
+#define DIRECTORIO "/home/sergiogus/Desktop/CFD/NavierStokes3D/Incompressible/Solver Gauss-Seidel/"
 
 int main(int argc, char* argv[]){
 
