@@ -298,11 +298,6 @@ void Solver::AllocateMatrix(Memory M1){
 		WGPRES = M1.AllocateDouble(NX + 2*HP,NY + 2*HP,NZ + 1 + 2*HP,1); //Velocidad W Global Presente
 		WGFUT = M1.AllocateDouble(NX + 2*HP,NY + 2*HP,NZ + 1 + 2*HP,1); //Velocidad W Global Futuro
 
-		PDT = M1.AllocateDouble(Procesos, 1, 1, 1); //Posibles Delta T (Step Time)
-		PDiff = M1.AllocateDouble(Procesos, 1, 1, 1); //Posibles MaxDiff Globales
-		PMD = M1.AllocateDouble(Procesos, 1, 1, 1); //Posibles MaxDiff Gauss Seidel
-
-
 		//Matrices locales de propiedades
 
 		//Presion
@@ -1457,8 +1452,8 @@ int i, j, k;
 //Cálculo del tiempo entre Steps
 void Solver::Get_StepTime(Mesher MESH, ParPro MPI1){
 int i, j , k;
-double DeltasT = 1000.0;
-double Tpar = 0.10;
+DeltaT = 1000.0;
+double Tpar = 0.60;
 
 MPI_Status ST;
 
@@ -1474,25 +1469,25 @@ MPI_Status ST;
 				//CFL Velocidades (U, V, W)
 
 				//Velocidad U
-				DeltasT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,0)])/(0.50*(ULPRES[LUC(i,j,k,0)] + ULPRES[LUC(i+1,j,k,0)]) + 1e-10)) - DeltasT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,0)])/(0.50*(ULPRES[LUC(i,j,k,0)] + ULPRES[LUC(i+1,j,k,0)]) + 1e-10)) <= DeltasT);
+				DeltaT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,0)])/(0.50*(ULPRES[LUC(i,j,k,0)] + ULPRES[LUC(i+1,j,k,0)]) + 1e-10)) - DeltaT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,0)])/(0.50*(ULPRES[LUC(i,j,k,0)] + ULPRES[LUC(i+1,j,k,0)]) + 1e-10)) <= DeltaT);
 
 				//Velocidad V
-				DeltasT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,1)])/(0.50*(VLPRES[LVC(i,j,k,0)] + VLPRES[LVC(i,j+1,k,0)]) + 1e-10)) - DeltasT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,1)])/(0.50*(VLPRES[LVC(i,j,k,0)] + VLPRES[LVC(i,j+1,k,0)]) + 1e-10)) <= DeltasT);
+				DeltaT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,1)])/(0.50*(VLPRES[LVC(i,j,k,0)] + VLPRES[LVC(i,j+1,k,0)]) + 1e-10)) - DeltaT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,1)])/(0.50*(VLPRES[LVC(i,j,k,0)] + VLPRES[LVC(i,j+1,k,0)]) + 1e-10)) <= DeltaT);
 				
 				//Velocidad W
-				DeltasT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,2)])/(0.50*(WLPRES[LWC(i,j,k,0)] + WLPRES[LWC(i,j,k+1,0)]) + 1e-10)) - DeltasT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,2)])/(0.50*(WLPRES[LWC(i,j,k,0)] + WLPRES[LWC(i,j,k+1,0)]) + 1e-10)) <= DeltasT);
+				DeltaT += (abs((Tpar*MESH.DeltasMP[GP(i,j,k,2)])/(0.50*(WLPRES[LWC(i,j,k,0)] + WLPRES[LWC(i,j,k+1,0)]) + 1e-10)) - DeltaT)*(abs((Tpar*MESH.DeltasMP[GP(i,j,k,2)])/(0.50*(WLPRES[LWC(i,j,k,0)] + WLPRES[LWC(i,j,k+1,0)]) + 1e-10)) <= DeltaT);
 				
 			
 				//CFL Difusivo Velocidades
 
 				//Difusivo U
-				DeltasT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(mu + 1e-10) - DeltasT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(mu + 1e-10) <= DeltasT);
+				DeltaT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(mu + 1e-10) - DeltaT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(mu + 1e-10) <= DeltaT);
 
 				//Difusivo V
-				DeltasT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(mu + 1e-10) - DeltasT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(mu + 1e-10) <= DeltasT);
+				DeltaT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(mu + 1e-10) - DeltaT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(mu + 1e-10) <= DeltaT);
 
 				//Difusivo W
-				DeltasT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(mu + 1e-10) - DeltasT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(mu + 1e-10) <= DeltasT);
+				DeltaT += ((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(mu + 1e-10) - DeltaT)*((Tpar*Rho*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(mu + 1e-10) <= DeltaT);
 
 			}	
 		}
@@ -1507,13 +1502,13 @@ MPI_Status ST;
 					//CFL Difusivo Temperatura
 
 					//Difusivo U
-					DeltasT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(K + 1e-10) - DeltasT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(K + 1e-10) <= DeltasT);
+					DeltaT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(K + 1e-10) - DeltaT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,0)],2.0))/(K + 1e-10) <= DeltaT);
 
 					//Difusivo V
-					DeltasT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(K + 1e-10) - DeltasT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(K + 1e-10) <= DeltasT);
+					DeltaT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(K + 1e-10) - DeltaT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,1)],2.0))/(K + 1e-10) <= DeltaT);
 
 					//Difusivo W
-					DeltasT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(K + 1e-10) - DeltasT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(K + 1e-10) <= DeltasT);
+					DeltaT += ((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(K + 1e-10) - DeltaT)*((Tpar*Rho*Cp*pow(MESH.DeltasMP[GP(i,j,k,2)],2.0))/(K + 1e-10) <= DeltaT);
 
 				}
 			}
@@ -1521,18 +1516,7 @@ MPI_Status ST;
 
 	}
 
-
-	MPI1.SendDataToZero(DeltasT, PDT);
-
-	double DT;
-	if(Rank == 0){
-		DT = PDT[0];
-		for(i = 1; i < Procesos; i++){
-			DT += (PDT[i] - DT)*(PDT[i] <= DT);
-		}
-	}
-
-	MPI1.SendDataToAll(DT, DeltaT);
+	MPI_Allreduce(&DeltaT, &DeltaT, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
 
 }
 
@@ -8300,7 +8284,7 @@ int i, j, k;
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY; j++){
-				bp[LAL(i,j,k,0)] = + (Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))*(
+				bp[LAL(i,j,k,0)] = - (Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))*(
 								   - MESH.SupMP[GP(i,j,k,0)]*PredU[LUC(i,j,k,0)]
 								   + MESH.SupMP[GP(i,j,k,1)]*PredU[LUC(i + 1,j,k,0)]
 								   - MESH.SupMP[GP(i,j,k,2)]*PredV[LVC(i,j,k,0)]
@@ -8331,20 +8315,7 @@ MPI_Status ST;
 		}
 	}
 
-	MPI1.SendDataToZero(MaxDiffGS, PDiff);
-
-	double Diff;
-	if(Rank == 0){
-		Diff = PDiff[0];
-		for(i = 1; i < Procesos; i++){
-			if(PDiff[i] > Diff){
-				Diff = PDiff[i];
-			}
-		}
-
-	}
-
-	MPI1.SendDataToAll(Diff, MaxDiffGS);
+	MPI_Allreduce(&MaxDiffGS, &MaxDiffGS, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
 
 }
 
@@ -8794,17 +8765,7 @@ MaxDiffGlobal = 0.0;
 		}
 	}
 
-	MPI1.SendDataToZero(MaxDiffGlobal, PMD);
-
-	double MD;
-	if(Rank == 0){
-		MD = PMD[0];
-		for(i = 1; i < Procesos; i++){
-			MD += (PMD[i] - MD)*(PMD[i] > MD);
-		}
-	}
-
-	MPI1.SendDataToAll(MD, MaxDiffGlobal);
+	MPI_Allreduce(&MaxDiffGlobal, &MaxDiffGlobal, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
 
 }
 

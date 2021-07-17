@@ -238,11 +238,6 @@ class Solver{
 		double *There;
 		double *Tthere;
 
-
-		double *PDT; //Possible Delta T
-		double *PMD; //Possible MaxDiffGlobal
-		double *PDiff; //Possible MaxDiffGS
-
 		void AllocateMatrix(Memory);
 		void Get_BoundaryConditions(Mesher);
 		void Get_HaloVelocities();
