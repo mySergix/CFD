@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <mpi.h>
+#include <chrono>
 
 using namespace std;
 
@@ -148,6 +149,7 @@ Solver::Solver(Memory M1, ReadData R1, ParPro MPI1, Mesher MESH, PostProcessing 
 	Ttop = R1.ProblemPhysicalData[12]; 
 
 	//Variables del Runge - Kutta de 4o order (Capuano et All)
+	/*
 	c1 = 0.0;
 	c3 = 0.25;
 	c2 = (c3 - 1.0)/(4.0*c3 - 3.0);
@@ -167,6 +169,27 @@ Solver::Solver(Memory M1, ReadData R1, ParPro MPI1, Mesher MESH, PostProcessing 
 	a_41 = - pow(2.0*c3 - 1.0,2.0)/(2.0*(c3 - 1.0)*(4.0*c3 - 3.0));
 	a_42 = (6.0*pow(c3,2.0) - 8.0*c3 + 3.0)/(2.0*(c3 - 1.0)*(2.0*c3 - 1.0));
 	a_43 = (c3 - 1.0)/((2.0*c3 - 1.0)*(4.0*c3 - 3.0));
+*/
+
+	c1 = 0.0;
+	c2 = 0.5;
+	c3 = 0.5;
+	c4 = 1.0;
+
+	b1 = 1.0/6.0;
+	b2 = 1.0/3.0;
+	b3 = 1.0/3.0;
+	b4 = 1.0/6.0;
+
+
+	a_21 = 0.5;
+
+	a_31 = 0.0;
+	a_32 = 0.5;
+
+	a_41 = 0.0;
+	a_42 = 0.0;
+	a_43 = 1.0;
 
 	//Cálculos extra para cada problema
 	if(Problema == 1){ //Problema Driven Cavity
@@ -8280,11 +8303,11 @@ int i, j, k;
 //Cálculo de la divergencia de la velocidad predictora (Término bp)
 void Solver::Get_PredictorsDivergence(Mesher MESH, ParPro MPI1){
 int i, j, k;
-
+//(Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))
 	for(i = Ix; i < Fx; i++){
 		for(k = 0; k < NZ; k++){
 			for(j = 0; j < NY; j++){
-				bp[LAL(i,j,k,0)] = - (Rho/(DeltaT*MESH.VolMP[GP(i,j,k,0)]))*(
+				bp[LAL(i,j,k,0)] = - (1.0/(DeltaT))*(
 								   - MESH.SupMP[GP(i,j,k,0)]*PredU[LUC(i,j,k,0)]
 								   + MESH.SupMP[GP(i,j,k,1)]*PredU[LUC(i + 1,j,k,0)]
 								   - MESH.SupMP[GP(i,j,k,2)]*PredV[LVC(i,j,k,0)]
@@ -8832,11 +8855,15 @@ int i, j, k;
 		cout<<"Generando memoria para el solver... "<<endl;
 	}
 
+	auto Inicio_Preprograma = std::chrono::high_resolution_clock::now();
+	
 	AllocateMatrix(M1); //Alojamiento de Memoria
 
 	if(Rank == 0){
 		cout<<"Memoria generada "<<endl;
 	}
+
+	
 	
 	Get_InitialConditions(); //Condiciones iniciales de las matrices
 	
@@ -8852,14 +8879,25 @@ int i, j, k;
 		std::cout<<"Coeficientes generados \n";	
 	}
 
-	while(MaxDiffGlobal >= ConvergenciaGlobal){
+	auto Fin_Preprograma = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> Tiempo_Preprograma = Fin_Preprograma - Inicio_Preprograma;
+
+	std::chrono::duration<double> Duracion_InStep, Tiempo_InStep, Duracion_RungeKutta, Tiempo_RungeKutta;
+	//MaxDiffGlobal >= ConvergenciaGlobal
+	while(Step < 10){
 		
+		auto Inicio_InStep = std::chrono::high_resolution_clock::now();
 		Step++;
 		Get_BoundaryConditions(MESH); //Actualizar condiciones de contorno
 		Get_HaloVelocities(); //Actualizar el Halo de las velocidades
 		Get_StepTime(MESH, MPI1); //Get Time Step
 		Time += DeltaT;
+		auto Fin_InStep = std::chrono::high_resolution_clock::now();
 
+		Duracion_InStep = (Fin_InStep - Inicio_InStep);
+		Tiempo_InStep += Duracion_InStep;
+
+		auto Inicio_RungeKutta = std::chrono::high_resolution_clock::now();
 		switch(Problema){
 			case 1: 
 			case 3:
@@ -8873,7 +8911,10 @@ int i, j, k;
 			Get_RungeKuttaVelocities(MESH, MPI1);
 			break;
 		}
-
+		auto Fin_RungeKutta = std::chrono::high_resolution_clock::now();
+		Duracion_RungeKutta = (Fin_RungeKutta - Inicio_RungeKutta);
+		Tiempo_RungeKutta += Duracion_RungeKutta;
+		
 		Get_PredictorsDivergence(MESH, MPI1); //Calculo bp
 		Get_GaussSeidel(MPI1); //Resolucion por GS
 		Get_Velocities(MESH, MPI1); //Calculo de las velocidades
@@ -8893,7 +8934,7 @@ int i, j, k;
 
 		}
 		
-		if(Step%StepsFile == 0){
+		if(Step%10 == 0){
 
 			//Envío Matrices Locales a Globales Presente
 			MPI1.SendMatrixToZeroMU(ULFUT, UGFUT, NX, NY, NZ, Procesos, Ix, Fx);
@@ -8910,7 +8951,7 @@ int i, j, k;
 					case 1: 
 					POST1.EscalarVTK3D("DrivenCavity/", "Presion", FileName_1, PGPRES, MESH.MP, NX, NY, NZ);
 					POST1.VectorialVTK3D(MESH, "DrivenCavity/", "Velocidad", FileName_2, UGFUT, VGFUT, WGFUT, MESH.MP, NX, NY, NZ);
-					POST1.Get_DrivenResults(MESH, Time, Procesos, Step, UGFUT, VGFUT);
+					//POST1.Get_DrivenResults(MESH, Time, Procesos, Step, UGFUT, VGFUT);
 					break;
 
 					case 2:
@@ -8934,6 +8975,12 @@ int i, j, k;
 				
 		Get_Update();
 	
+	}
+	
+	if(Rank == 0){
+		std::cout << "Tiempo_Preprograma: " << Tiempo_Preprograma.count() << " s\n";
+		std::cout << "Tiempo_InStep: " << Tiempo_InStep.count() << " s\n";
+		std::cout << "Tiempo_RungeKutta: " << Tiempo_RungeKutta.count() << " s\n"; 
 	}
 	
 	if(Rank == 0){

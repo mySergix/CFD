@@ -9,9 +9,9 @@ Datos numéricos:
 0	Progresión lineal en las transiciones 				(En el caso de haber elegido el problema 3)
                                                         (1 -> Activado, 0 -> Desactivado)
 
-70	Número de nodos en la dirección X
-70	Número de nodos en la dirección Y
-40  Número de nodos en la dirección Z
+40	Número de nodos en la dirección X
+40	Número de nodos en la dirección Y
+30  Número de nodos en la dirección Z
 
 1	Tipo de discretización en la dirección X			(1 -> Discretización Regular, Uniforme)
 1	Tipo de discretización en la dirección Y			(2 -> Discretización Tanh, Más densa en los extremos)
