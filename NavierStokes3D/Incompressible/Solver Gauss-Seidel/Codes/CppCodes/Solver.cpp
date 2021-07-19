@@ -8842,6 +8842,7 @@ int i, j, k;
 void Solver::ExecuteSolver(Memory M1, ParPro MPI1, Mesher MESH, PostProcessing POST1){	
 int i, j, k;
 
+	auto Inicio_Total = std::chrono::high_resolution_clock::now();
 	double Time = 0.0;
 	int Step = 0;
 
@@ -8863,8 +8864,6 @@ int i, j, k;
 		cout<<"Memoria generada "<<endl;
 	}
 
-	
-	
 	Get_InitialConditions(); //Condiciones iniciales de las matrices
 	
 	if(Rank == 0){
@@ -8883,8 +8882,10 @@ int i, j, k;
 	std::chrono::duration<double> Tiempo_Preprograma = Fin_Preprograma - Inicio_Preprograma;
 
 	std::chrono::duration<double> Duracion_InStep, Tiempo_InStep, Duracion_RungeKutta, Tiempo_RungeKutta;
-	//MaxDiffGlobal >= ConvergenciaGlobal
-	while(Step < 10){
+	std::chrono::duration<double> Duracion_Predictors, Tiempo_Predictors, Duracion_GS, Tiempo_GS;
+	std::chrono::duration<double> Duracion_Stop, Tiempo_Stop, Duracion_Post, Tiempo_Post;
+	
+	while(MaxDiffGlobal >= ConvergenciaGlobal){
 		
 		auto Inicio_InStep = std::chrono::high_resolution_clock::now();
 		Step++;
@@ -8914,9 +8915,20 @@ int i, j, k;
 		auto Fin_RungeKutta = std::chrono::high_resolution_clock::now();
 		Duracion_RungeKutta = (Fin_RungeKutta - Inicio_RungeKutta);
 		Tiempo_RungeKutta += Duracion_RungeKutta;
-		
+
+		auto Inicio_Predictors = std::chrono::high_resolution_clock::now();
 		Get_PredictorsDivergence(MESH, MPI1); //Calculo bp
+		auto Fin_Predictors = std::chrono::high_resolution_clock::now();
+		Duracion_Predictors = (Fin_Predictors - Inicio_Predictors);
+		Tiempo_Predictors += Duracion_Predictors;
+
+		auto Inicio_GS = std::chrono::high_resolution_clock::now();
 		Get_GaussSeidel(MPI1); //Resolucion por GS
+		auto Fin_GS = std::chrono::high_resolution_clock::now();
+		Duracion_GS = (Fin_GS - Inicio_GS);
+		Tiempo_GS += Duracion_GS;
+
+
 		Get_Velocities(MESH, MPI1); //Calculo de las velocidades
 
 		switch(Problema){
@@ -8925,16 +8937,19 @@ int i, j, k;
 			break;
 		}
 	
-		if(Step%1 == 0){
-			Get_Stop(MPI1);
-			
+		auto Inicio_Stop = std::chrono::high_resolution_clock::now();
+		if(Step%100 == 0){
+			Get_Stop(MPI1);		
 			if(Rank == 0){
 				cout<<"Step: "<<Step<<", Total time: "<<Time<<", MaxDif: "<<MaxDiffGlobal<<endl;
 			}
-
 		}
-		
-		if(Step%10 == 0){
+		auto Fin_Stop = std::chrono::high_resolution_clock::now();
+		Duracion_Stop = (Fin_Stop - Inicio_Stop);
+		Tiempo_Stop += Duracion_Stop;
+
+		auto Inicio_Post = std::chrono::high_resolution_clock::now();
+		if(Step%500 == 0){
 
 			//Envío Matrices Locales a Globales Presente
 			MPI1.SendMatrixToZeroMU(ULFUT, UGFUT, NX, NY, NZ, Procesos, Ix, Fx);
@@ -8972,15 +8987,27 @@ int i, j, k;
 				
 			}
 		}
-				
+		
+		auto Fin_Post = std::chrono::high_resolution_clock::now();
+		Duracion_Post = (Fin_Post - Inicio_Post);
+		Tiempo_Post += Duracion_Post;
+
 		Get_Update();
 	
 	}
 	
+	auto Fin_Total = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> Tiempo_Total = Fin_Total - Inicio_Total;
+
 	if(Rank == 0){
-		std::cout << "Tiempo_Preprograma: " << Tiempo_Preprograma.count() << " s\n";
-		std::cout << "Tiempo_InStep: " << Tiempo_InStep.count() << " s\n";
-		std::cout << "Tiempo_RungeKutta: " << Tiempo_RungeKutta.count() << " s\n"; 
+		std::cout << "Tiempo_Total: " << Tiempo_Total.count() << " s\n";
+		std::cout << "Tiempo_Preprograma: " << Tiempo_Preprograma.count() << " s, "<<100*(Tiempo_Preprograma.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_InStep: " << Tiempo_InStep.count() << " s, "<<100*(Tiempo_InStep.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_RungeKutta: " << Tiempo_RungeKutta.count() << " s, "<<100*(Tiempo_RungeKutta.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_Predictors: " << Tiempo_Predictors.count() << " s, "<<100*(Tiempo_Predictors.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_GS: " << Tiempo_GS.count() << " s, "<<100*(Tiempo_GS.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_Stop: " << Tiempo_Stop.count() << " s, "<<100*(Tiempo_Stop.count()/Tiempo_Total.count())<<" %\n";
+		std::cout << "Tiempo_Post: " << Tiempo_Post.count() << " s, "<<100*(Tiempo_Post.count()/Tiempo_Total.count())<<" %\n";
 	}
 	
 	if(Rank == 0){
