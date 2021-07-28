@@ -16,9 +16,11 @@
 
 using namespace std;
 
-#define DIRECTORIO "/home/sergiogus/Desktop/CFD/NavierStokes3D/Incompressible/Solver Gauss-Seidel/"
+#define DIRECTORIO "/home_nobck/sergiogus/Incompressible3D/"
 
 int main(int argc, char* argv[]){
+
+int i;
 
 MPI_Init(&argc, &argv);
 cout << endl;
