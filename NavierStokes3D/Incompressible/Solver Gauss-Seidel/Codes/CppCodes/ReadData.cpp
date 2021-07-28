@@ -22,7 +22,7 @@ ReadData::ReadData(Memory M1, string InputDirectorio){
 	GeometryData = M1.AllocateDouble(7, 1, 1, 1); //Datos de la geometría del problema
 	ProblemNumericalData = M1.AllocateInt(10, 1, 1, 1); //Datos numéricos del problema
 	ProblemData = M1.AllocateDouble(5, 1, 1, 1); //Datos del problema
-	ProblemPhysicalData = M1.AllocateDouble(13, 1, 1, 1); //Datos físicos sobre las condiciones del problema
+	ProblemPhysicalData = M1.AllocateDouble(9, 1, 1, 1); //Datos físicos sobre las condiciones del problema
 	
 }
 
@@ -54,7 +54,7 @@ void ReadData::ReadInputs(){
 
 	//Lectura datos en Arrays
 	ReadArrays("GeometryData.txt", 7, GeometryData); //Input Datos Geometría del problema
-	ReadArrays("ProblemPhysicalData.txt", 13, ProblemPhysicalData);	  //Input Datos físicos de las condiciones del problema
+	ReadArrays("ProblemPhysicalData.txt", 9, ProblemPhysicalData);	  //Input Datos físicos de las condiciones del problema
 
 int i = 0;
 string FileName;

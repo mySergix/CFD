@@ -15,34 +15,32 @@
 
 using namespace std;
 
-#define GP(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index P Mesh
-#define GU(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+1+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index U Mesh
-#define GV(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) + ((NX+2*HP)*(NY+1+2*HP)*(NZ+2*HP)*(dim)) //Global Index V Mesh
-#define GW(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+1+2*HP)*(dim)) //Global Index W Mesh
+//Global Index P Mesh
+#define GP(i,j,k,Dim) (NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*((i) + HaloPressure) + ((j) + HaloPressure) + ((k) + HaloPressure)*(NY + 2*HaloPressure) + (NX + 2*HaloPressure)*(NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*(Dim)
 
-//Local Index P Mesh
-#define LPL(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Left Core
-#define LPC(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Center Cores
-#define LPR(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Right Core
+//Global Index U Mesh
+#define GU(i,j,k,Dim) (NY + 2*HaloU)*(NZ + 2*HaloU)*((i) + HaloU) + ((j) + HaloU) + ((k) + HaloU)*(NY + 2*HaloU) + (NX + 1 + 2*HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU)*(Dim)
 
-//Local Index U Mesh
-#define LUL(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Left Core
-#define LUC(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Center Cores
-#define LUR(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Right Core
+//Global Index V Mesh
+#define GV(i,j,k,Dim) (NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*((i) + HaloV) + ((j) + HaloV) + ((k) + HaloV)*(NY + 1 + 2*HaloV) + (NX + 2*HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*(Dim)
 
-//Local Index V Mesh
-#define LVL(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) + HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Left Core
-#define LVC(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Center Cores
-#define LVR(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Right Core
+//Global Index W Mesh
+#define GW(i,j,k,Dim) (NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*((i) + HaloW) + ((j) + HaloW) + ((k) + HaloW)*(NY + 2*HaloW) + (NX + 2*HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*(Dim)
 
-//Local Index W Mesh
-#define LWL(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) + HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Left Core
-#define LWC(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Center Cores
-#define LWR(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Right Core
+//Local Index Pressure (P) Mesh
+#define LP(i,j,k,dim) (NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*((i) - Ix + HaloPressure) + (j + HaloPressure) + (k + HaloPressure)*(NY + 2*HaloPressure)
 
-//Coeficientes A
-#define LAG(i,j,k,dim) ((NY*NZ)*((i))) + ((j) + (k)*NY)
-#define LAL(i,j,k,dim) ((NY*NZ)*((i) - Ix)) + ((j) + (k)*NY)
+//Local Index Velocity (U) Mesh
+#define LU(i,j,k,dim) (NY + 2*HaloU)*(NZ + 2*HaloU)*((i) - Ix + HaloU) + ((j) + HaloU) + ((k) + HaloU)*(NY + 2*HaloU)
+
+//Local Index Velocity (V) Mesh
+#define LV(i,j,k,dim) (NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*((i) - Ix + HaloV) + ((j) + HaloV) + ((k) + HaloV)*(NY + 1 + 2*HaloV)
+
+//Local Index Velocity (W) Mesh
+#define LW(i,j,k,dim) (NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*((i) - Ix + HaloW) + ((j) + HaloW) + ((k) + HaloW)*(NY + 2*HaloW)
+
+//Local Index Pressure Coefficients (A)
+#define LA(i,j,k,dim) (NY*NZ)*((i) - Ix) + (j) + (k)*NY
 
 ParPro::ParPro(ReadData R1){
 
@@ -50,6 +48,11 @@ ParPro::ParPro(ReadData R1){
 		NY = R1.ProblemNumericalData[3];
 		NZ = R1.ProblemNumericalData[4];
 		Halo = 2;
+
+		HaloPressure = 1;
+		HaloU = 2;
+		HaloV = 2;
+		HaloW = 2;
 
 		HP = 2;
 }
@@ -101,21 +104,21 @@ void ParPro::CommunicateDataLP(double *LocalSend, double *LocalReceive, int Ix, 
 MPI_Status ST;	
 
 	if(Rank != Procesos - 1){
-		MPI_Send(&LocalSend[LPC(Fx - Halo,- HP, - HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LP(Fx - HaloPressure, 0, 0, 0)], (HaloPressure)*(NY)*(NZ), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != 0){
-		MPI_Recv(&LocalReceive[LPC(Ix - Halo,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LP(Ix - HaloPressure, 0, 0, 0)], (HaloPressure)*(NY)*(NZ), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	if(Rank != 0){
-		MPI_Send(&LocalSend[LPC(Ix,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LP(Ix, 0, 0, 0)], (HaloPressure)*(NY)*(NZ), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != Procesos - 1){
-		MPI_Recv(&LocalReceive[LPC(Fx,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LP(Fx, 0, 0, 0)], (HaloPressure)*(NY)*(NZ), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD, &ST);
 	}
 	
 }
@@ -125,21 +128,21 @@ void ParPro::CommunicateDataLU(double *LocalSend, double *LocalReceive, int Ix, 
 MPI_Status ST;
 
 	if(Rank != Procesos - 1){
-		MPI_Send(&LocalSend[LUC(Fx - Halo,- HP, - HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LU(Fx - HaloU, - HaloU, - HaloU, 0)], (HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != 0){
-		MPI_Recv(&LocalReceive[LUC(Ix - Halo,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LU(Ix - HaloU, - HaloU, - HaloU,0)], (HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	if(Rank != 0){
-		MPI_Send(&LocalSend[LUC(Ix + 1,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LU(Ix + 1, - HaloU, - HaloU,0)], (HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != Procesos - 1){
-		MPI_Recv(&LocalReceive[LUC(Fx + 1,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LU(Fx + 1,- HaloU,- HaloU,0)], (HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD, &ST);
 	}
 	
 }
@@ -149,21 +152,21 @@ void ParPro::CommunicateDataLV(double *LocalSend, double *LocalReceive, int Ix, 
 MPI_Status ST;
 
 	if(Rank != Procesos - 1){
-		MPI_Send(&LocalSend[LVC(Fx - Halo,- HP, - HP,0)], (Halo)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LV(Fx - HaloV, - HaloV, - HaloV, 0)], (HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != 0){
-		MPI_Recv(&LocalReceive[LVC(Ix - Halo,- HP,- HP,0)], (Halo)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LV(Ix - HaloV, - HaloV, - HaloV, 0)], (HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	if(Rank != 0){
-		MPI_Send(&LocalSend[LVC(Ix,- HP,- HP,0)], (Halo)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LV(Ix,- HaloV, - HaloV, 0)], (HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != Procesos - 1){
-		MPI_Recv(&LocalReceive[LVC(Fx,- HP,- HP,0)], (Halo)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LV(Fx,- HaloV,- HaloV, 0)], (HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 }
@@ -173,21 +176,21 @@ void ParPro::CommunicateDataLW(double *LocalSend, double *LocalReceive, int Ix, 
 MPI_Status ST;
 	
 	if(Rank != Procesos - 1){
-		MPI_Send(&LocalSend[LWC(Fx - Halo,- HP, - HP,0)], (Halo)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LW(Fx - HaloW,- HaloW, - HaloW, 0)], (HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != 0){
-		MPI_Recv(&LocalReceive[LWC(Ix - Halo,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LW(Ix - HaloW, - HaloW, - HaloW,0)], (HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
 
 	if(Rank != 0){
-		MPI_Send(&LocalSend[LWC(Ix,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, Rank-1, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalSend[LW(Ix, - HaloW, - HaloW, 0)], (HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, Rank - 1, 0, MPI_COMM_WORLD);
 	}
 
 	if(Rank != Procesos - 1){
-		MPI_Recv(&LocalReceive[LWC(Fx,- HP,- HP,0)], (Halo)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, Rank+1, 0, MPI_COMM_WORLD, &ST);
+		MPI_Recv(&LocalReceive[LW(Fx, - HaloW, - HaloW, 0)], (HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, Rank + 1, 0, MPI_COMM_WORLD, &ST);
 	}
 
 }
@@ -198,21 +201,21 @@ int pix, pfx;
 MPI_Status ST;
 
 	if(Rank != 0){
-		MPI_Send(&LocalMatrix[LPC(Ix,- HP,- HP,0)], (Fx-Ix)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalMatrix[LP(Ix, - HaloPressure, - HaloPressure, 0)], (Fx - Ix)*(NY + 2*HaloPressure)*(NZ + 2*HaloPressure), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
 	}
 	
 	if(Rank == 0){
 		for(i = Ix; i < Fx; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
-					GlobalMatrix[GP(i,j,k,0)] = LocalMatrix[LPL(i,j,k,0)];
+			for(j = 0; j < NY; j++){
+				for(k = 0; k < NZ; k++){
+					GlobalMatrix[GP(i,j,k,0)] = LocalMatrix[LP(i,j,k,0)];
 				}		
 			}
 		}
 		
 		for(p = 1; p < Procesos; p++){
 			Get_Worksplit(NX, Procesos, p, pix, pfx);	
-			MPI_Recv(&GlobalMatrix[GP(pix,- HP,- HP,0)], (pfx - pix)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
+			MPI_Recv(&GlobalMatrix[GP(pix, - HaloPressure, - HaloPressure, 0)], (pfx - pix)*(NY + 2*HaloPressure)*(NZ+ 2*HaloPressure), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
 		}
 
 		
@@ -227,21 +230,21 @@ int pix, pfx;
 MPI_Status ST;
 
 	if(Rank != 0){
-		MPI_Send(&LocalMatrix[LUC(Ix,- HP,- HP,0)], (Fx-Ix + 1)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalMatrix[LU(Ix, - HaloU, - HaloU, 0)], (Fx - Ix + 1)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
 	}
 	
 	if(Rank == 0){
 		for(i = Ix; i < Fx + 1; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
-					GlobalMatrix[GU(i,j,k,0)] = LocalMatrix[LUL(i,j,k,0)];
+			for(j = - HaloU; j < NY + HaloU; j++){
+				for(k = - HaloU; k < NZ + HaloU; k++){
+					GlobalMatrix[GU(i,j,k,0)] = LocalMatrix[LU(i,j,k,0)];
 				}		
 			}
 		}
 		
 		for(p = 1; p < Procesos; p++){
 			Get_Worksplit(NX, Procesos, p, pix, pfx);	
-			MPI_Recv(&GlobalMatrix[GU(pix,- HP,- HP,0)], (pfx - pix + 1)*(NY + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
+			MPI_Recv(&GlobalMatrix[GU(pix, - HaloU, - HaloU, 0)], (pfx - pix + 1)*(NY + 2*HaloU)*(NZ + 2*HaloU), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
 		}
 
 		
@@ -257,24 +260,23 @@ int pix, pfx;
 MPI_Status ST;
 
 	if(Rank != 0){
-		MPI_Send(&LocalMatrix[LVC(Ix,- HP,- HP,0)], (Fx-Ix)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalMatrix[LV(Ix, - HaloV, - HaloV, 0)], (Fx - Ix)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
 	}
 	
 	if(Rank == 0){
 		for(i = Ix; i < Fx; i++){
-			for(j = - HP; j < NY + 1 + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
-					GlobalMatrix[GV(i,j,k,0)] = LocalMatrix[LVL(i,j,k,0)];
+			for(j = - HaloV; j < NY + 1 + HaloV; j++){
+				for(k = - HaloV; k < NZ + HaloV; k++){
+					GlobalMatrix[GV(i,j,k,0)] = LocalMatrix[LV(i,j,k,0)];
 				}		
 			}
 		}
 		
 		for(p = 1; p < Procesos; p++){
 			Get_Worksplit(NX, Procesos, p, pix, pfx);	
-			MPI_Recv(&GlobalMatrix[GV(pix,- HP,- HP,0)], (pfx - pix)*(NY + 1 + 2*HP)*(NZ + 2*HP), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
+			MPI_Recv(&GlobalMatrix[GV(pix, - HaloV, - HaloV, 0)], (pfx - pix)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
 		}
-
-		
+	
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
@@ -287,24 +289,24 @@ int pix, pfx;
 MPI_Status ST;
 
 	if(Rank != 0){
-		MPI_Send(&LocalMatrix[LWC(Ix,- HP,- HP,0)], (Fx-Ix)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+		MPI_Send(&LocalMatrix[LW(Ix, - HaloW, - HaloW, 0)], (Fx - Ix)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
 	}
 	
 	if(Rank == 0){
+		
 		for(i = Ix; i < Fx; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + 1 + HP; k++){
-					GlobalMatrix[GW(i,j,k,0)] = LocalMatrix[LWL(i,j,k,0)];
+			for(j = - HaloW; j < NY + HaloW; j++){
+				for(k = - HaloW; k < NZ + 1 + HaloW; k++){
+					GlobalMatrix[GW(i,j,k,0)] = LocalMatrix[LW(i,j,k,0)];
 				}		
 			}
 		}
 		
 		for(p = 1; p < Procesos; p++){
 			Get_Worksplit(NX, Procesos, p, pix, pfx);	
-			MPI_Recv(&GlobalMatrix[GW(pix,- HP,- HP,0)], (pfx - pix)*(NY + 2*HP)*(NZ + 1 + 2*HP), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);
+			MPI_Recv(&GlobalMatrix[GW(pix, - HaloW, - HaloW, 0)], (pfx - pix)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW), MPI_DOUBLE, p, 0, MPI_COMM_WORLD, &ST);	
 		}
-
-		
+	
 	}
 
 	MPI_Barrier(MPI_COMM_WORLD);
@@ -344,7 +346,7 @@ MPI_Status ST;
 	}
 
 }
-
+/*
 void ParPro::SendMatrixToZeroBP(double *LocalMatrix, double *GlobalMatrix, int NX, int NY, int NZ, int Procesos, int Ix, int Fx){
 int i, j, k, p;
 int pix, pfx;
@@ -373,45 +375,7 @@ MPI_Status ST;
 
 	MPI_Barrier(MPI_COMM_WORLD);	
 }
-
-void ParPro::SendMatrixToAll_Pressure(double *LocalMatrix, double *GlobalMatrix, int NX, int NY, int NZ, int Procesos, int Ix, int Fx){
-int i, j, k, p;
-int pix, pfx;
-MPI_Status ST;
-
-	if(Rank == 0){
-
-		for(i = Ix; i < Fx + Halo; i++){
-			for(j = 0; j < NY; j++){
-				for(k = 0; k < NZ; k++){
-					LocalMatrix[LPC(i,j,k,0)] = GlobalMatrix[LAG(i,j,k,0)];
-				}		
-			}
-		}
-		
-		for(p = 1; p < Procesos - 1; p++){
-			
-			Get_Worksplit(NX, Procesos, p, pix, pfx);	
-			MPI_Send(&GlobalMatrix[LAG(pix - Halo, 0, 0, 0)], (pfx-pix + 2*Halo)*(NY)*(NZ), MPI_DOUBLE, p, 0, MPI_COMM_WORLD);
-
-		}
-
-		p = Procesos - 1;
-		Get_Worksplit(NX, Procesos, p, pix, pfx);	
-		MPI_Send(&GlobalMatrix[LAG(pix - Halo, 0, 0, 0)], (pfx-pix + Halo)*(NY)*(NZ), MPI_DOUBLE, p, 0, MPI_COMM_WORLD);
-
-	}
-	if(Rank != 0 && Rank != Procesos - 1){
-		MPI_Recv(&LocalMatrix[LPC(Ix - Halo, 0, 0, 0)], (Fx - Ix + 2*Halo)*(NY)*(NZ), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &ST);
-	}
-	else if(Rank == Procesos - 1){
-		MPI_Recv(&LocalMatrix[LPC(Ix - Halo, 0, 0, 0)], (Fx - Ix + Halo)*(NY)*(NZ), MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &ST);
-	}
-	
-	MPI_Barrier(MPI_COMM_WORLD);	
-	
-}
-
+*/
 void ParPro::Execute(){
 
 	Rango();

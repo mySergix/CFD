@@ -14,33 +14,41 @@ using namespace std;
 #include "../HeaderCodes/ParPro.h"
 #include "../HeaderCodes/Mesher.h"
 #include "../HeaderCodes/PostProcessing.h"
-
+/*
 #define PI 3.141592653589793
 
 #define GP(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index P Mesh
+#define GP2(i,j,k,dim) ((NY)*(NZ))*(i) + ((j) + (k)*NY) //Global Index P 
 #define GU(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+1+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index U Mesh
 #define GV(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) + ((NX+2*HP)*(NY+1+2*HP)*(NZ+2*HP)*(dim)) //Global Index V Mesh
 #define GW(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+1+2*HP)*(dim)) //Global Index W Mesh
+*/
+//Global Index P Mesh
+#define GP(i,j,k,Dim) (NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*((i) + HaloPressure) + ((j) + HaloPressure) + ((k) + HaloPressure)*(NY + 2*HaloPressure) + (NX + 2*HaloPressure)*(NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*(Dim)
 
-//Local Index P Mesh
-#define LPL(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Left Core
-#define LPC(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Center Cores
-#define LPR(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Right Core
+//Global Index U Mesh
+#define GU(i,j,k,Dim) (NY + 2*HaloU)*(NZ + 2*HaloU)*((i) + HaloU) + ((j) + HaloU) + ((k) + HaloU)*(NY + 2*HaloU) + (NX + 1 + 2*HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU)*(Dim)
 
-//Local Index U Mesh
-#define LUL(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Left Core
-#define LUC(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Center Cores
-#define LUR(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) //Right Core
+//Global Index V Mesh
+#define GV(i,j,k,Dim) (NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*((i) + HaloV) + ((j) + HaloV) + ((k) + HaloV)*(NY + 1 + 2*HaloV) + (NX + 2*HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*(Dim)
 
-//Local Index V Mesh
-#define LVL(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) - Ix + HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Left Core
-#define LVC(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Center Cores
-#define LVR(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Right Core
+//Global Index W Mesh
+#define GW(i,j,k,Dim) (NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*((i) + HaloW) + ((j) + HaloW) + ((k) + HaloW)*(NY + 2*HaloW) + (NX + 2*HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*(Dim)
 
-//Local Index W Mesh
-#define LWL(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) + HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Left Core
-#define LWC(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Center Cores
-#define LWR(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i) - Ix + Halo) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) //Right Core
+//Local Index Pressure (P) Mesh
+#define LP(i,j,k,dim) (NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*((i) - Ix + HaloPressure) + (j + HaloPressure) + (k + HaloPressure)*(NY + 2*HaloPressure)
+
+//Local Index Velocity (U) Mesh
+#define LU(i,j,k,dim) (NY + 2*HaloU)*(NZ + 2*HaloU)*((i) - Ix + HaloU) + ((j) + HaloU) + ((k) + HaloU)*(NY + 2*HaloU)
+
+//Local Index Velocity (V) Mesh
+#define LV(i,j,k,dim) (NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*((i) - Ix + HaloV) + ((j) + HaloV) + ((k) + HaloV)*(NY + 1 + 2*HaloV)
+
+//Local Index Velocity (W) Mesh
+#define LW(i,j,k,dim) (NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*((i) - Ix + HaloW) + ((j) + HaloW) + ((k) + HaloW)*(NY + 2*HaloW)
+
+//Local Index Pressure Coefficients (A)
+#define LA(i,j,k,dim) (NY*NZ)*((i) - Ix) + (j) + (k)*NY
 
 PostProcessing::PostProcessing(Memory M1, ReadData R1, Mesher MESH, string InputDirectorio){
 	
@@ -71,7 +79,106 @@ PostProcessing::PostProcessing(Memory M1, ReadData R1, Mesher MESH, string Input
 	Halo = 2;
 	HP = 2;
 
+	HaloPressure = 1;
+	HaloU = 2;
+	HaloV = 2;
+	HaloW = 2;
+
 	DIRECTORIO = InputDirectorio;
+
+}
+
+//Pasar los resultados de las matrices locales a un VTK en 3D
+void PostProcessing::LocalEscalarVTK3D(string Carpeta, string Variable, string NombreFile, double *PropertyMatrix, double *MC, int Ix, int Fx, int ComHalo, int Ny, int Nz){
+int i, j, k;
+
+	ofstream file;
+    stringstream InitialName;
+    string FinalName;
+
+	InitialName<<DIRECTORIO<<"ParaviewResults/"<<Carpeta<<NombreFile<<".vtk";
+
+	FinalName = InitialName.str();
+    file.open(FinalName.c_str());
+
+    file<<"# vtk DataFile Version 2.0"<<endl;
+    file<<Variable<<endl;
+    file<<"ASCII"<<endl;
+    file<<endl;
+    file<<"DATASET STRUCTURED_GRID"<<endl;
+    file<<"DIMENSIONS"<<"   "<<(Fx - Ix + 2*ComHalo)<<"   "<<Ny<<"   "<<Nz<<endl;
+    file<<endl;
+    file<<"POINTS"<<"   "<<(Fx - Ix + 2*ComHalo)*Ny*Nz<<"   "<<"double"<<endl;
+	
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix - ComHalo; i < Fx + ComHalo; i++){
+				file<<MC[GP(i,j,k,0)]<<"   "<<MC[GP(i,j,k,1)]<<"   "<<MC[GP(i,j,k,2)]<<endl;
+			}
+		}
+	}
+        
+    file<<endl;
+	file<<"POINT_DATA"<<"   "<<(Fx - Ix + 2*ComHalo)*Ny*Nz<<endl;
+    file<<"SCALARS "<<Variable<<" double"<<endl;
+    file<<"LOOKUP_TABLE"<<"   "<<Variable<<endl;
+    file<<endl;
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix - ComHalo; i < Fx + ComHalo; i++){
+				file<<PropertyMatrix[LP(i,j,k,0)]<<" ";
+			}
+		}
+	}
+
+    file.close();
+
+}
+
+//Pasar los resultados de las matrices locales a un VTK en 3D
+void PostProcessing::LocalEscalarCoefficientsVTK3D(string Carpeta, string Variable, string NombreFile, double *a, double *MC, int Ix, int Fx, int Ny, int Nz){
+int i, j, k;
+
+	ofstream file;
+    stringstream InitialName;
+    string FinalName;
+
+	InitialName<<DIRECTORIO<<"ParaviewResults/"<<Carpeta<<NombreFile<<".vtk";
+
+	FinalName = InitialName.str();
+    file.open(FinalName.c_str());
+
+    file<<"# vtk DataFile Version 2.0"<<endl;
+    file<<Variable<<endl;
+    file<<"ASCII"<<endl;
+    file<<endl;
+    file<<"DATASET STRUCTURED_GRID"<<endl;
+    file<<"DIMENSIONS"<<"   "<<(Fx - Ix)<<"   "<<Ny<<"   "<<Nz<<endl;
+    file<<endl;
+    file<<"POINTS"<<"   "<<(Fx - Ix)*Ny*Nz<<"   "<<"double"<<endl;
+	
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix; i < Fx; i++){
+				file<<MC[GP(i,j,k,0)]<<"   "<<MC[GP(i,j,k,1)]<<"   "<<MC[GP(i,j,k,2)]<<endl;
+			}
+		}
+	}
+        
+    file<<endl;
+	file<<"POINT_DATA"<<"   "<<(Fx - Ix)*Ny*Nz<<endl;
+    file<<"SCALARS "<<Variable<<" double"<<endl;
+    file<<"LOOKUP_TABLE"<<"   "<<Variable<<endl;
+    file<<endl;
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix; i < Fx; i++){
+				file<<a[LA(i,j,k,0)]<<" ";
+			}
+		}
+	}
+
+    file.close();
 
 }
 
@@ -122,6 +229,53 @@ int i, j, k;
 }
 
 //Pasar los resultados de variables vectoriales a un archivo VTK en 3D
+void PostProcessing::LocalVectorialVTK3D(Mesher MESH, string Carpeta, string Variable, string NombreFile, double *Field1, double *Field2, double *Field3, double *MC, int Nx, int Ny, int Nz, int Ix, int Fx){
+int i, j, k;
+
+	ofstream file;
+    stringstream InitialName;
+    string FinalName;
+
+	InitialName<<DIRECTORIO<<"ParaviewResults/"<<Carpeta<<NombreFile<<".vtk";
+
+	FinalName = InitialName.str();
+    file.open(FinalName.c_str());
+
+    file<<"# vtk DataFile Version 2.0"<<endl;
+    file<<Variable<<endl;
+    file<<"ASCII"<<endl;
+    file<<endl;
+    file<<"DATASET STRUCTURED_GRID"<<endl;
+    file<<"DIMENSIONS"<<"   "<<(Fx - Ix)<<"   "<<Ny<<"   "<<Nz<<endl;
+    file<<endl;
+    file<<"POINTS"<<"   "<<(Fx-Ix)*Ny*Nz<<"   "<<"double"<<endl;
+	
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix; i < Fx; i++){
+				file<<MC[GP(i,j,k,0)]<<"   "<<MC[GP(i,j,k,1)]<<"   "<<MC[GP(i,j,k,2)]<<endl;
+			}
+		}
+	}
+        
+    file<<endl;
+    file<<"POINT_DATA"<<"   "<<(Fx - Ix)*(Ny)*(Nz)<<endl;
+    file<<"VECTORS "<<Variable<<" double"<<endl;
+    file<<endl;
+
+	for(k = 0; k < Nz; k++){
+		for(j = 0; j < Ny; j++){
+			for(i = Ix; i < Fx; i++){
+				file<<0.50*(Field1[LU(i,j,k,0)] + Field1[LU(i+1,j,k,0)])<<" "<<0.50*(Field2[LV(i,j,k,0)] + Field2[LV(i,j+1,k,0)])<<" "<<0.50*(Field3[LW(i,j,k,0)] + Field3[LW(i,j,k+1,0)])<<endl;
+			}
+		}
+	}
+
+    file.close();
+
+}
+
+//Pasar los resultados de variables vectoriales a un archivo VTK en 3D
 void PostProcessing::VectorialVTK3D(Mesher MESH, string Carpeta, string Variable, string NombreFile, double *Field1, double *Field2, double *Field3, double *MC, int Nx, int Ny, int Nz){
 int i, j, k;
 
@@ -144,8 +298,8 @@ int i, j, k;
     file<<"POINTS"<<"   "<<Nx*Ny*Nz<<"   "<<"double"<<endl;
 	
 	for(k = 0; k < Nz; k++){
-		for(j = 0; j < Ny; j++){
-			for(i = 0; i < Nx; i++){
+		for(i = 0; i < Nx; i++){
+			for(j = 0; j < Ny; j++){
 				file<<MC[GP(i,j,k,0)]<<"   "<<MC[GP(i,j,k,1)]<<"   "<<MC[GP(i,j,k,2)]<<endl;
 			}
 		}
@@ -157,8 +311,8 @@ int i, j, k;
     file<<endl;
 
 	for(k = 0; k < Nz; k++){
-		for(j = 0; j < Ny; j++){
-			for(i = 0; i < Nx; i++){
+		for(i = 0; i < Nx; i++){
+			for(j = 0; j < Ny; j++){	
 				file<<0.50*(Field1[GU(i,j,k,0)] + Field1[GU(i+1,j,k,0)])<<" "<<0.50*(Field2[GV(i,j,k,0)] + Field2[GV(i,j+1,k,0)])<<" "<<0.50*(Field3[GW(i,j,k,0)] + Field3[GW(i,j,k+1,0)])<<endl;
 			}
 		}

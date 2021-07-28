@@ -20,10 +20,17 @@ using namespace std;
 
 #define PI 3.141592653589793
 
-#define GP(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index P Mesh
-#define GU(i,j,k,dim) ((NY+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+1+2*HP)*(NY+2*HP)*(NZ+2*HP)*(dim)) //Global Index U Mesh
-#define GV(i,j,k,dim) ((NY+1+2*HP)*(NZ+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+1+2*HP)) + ((NX+2*HP)*(NY+1+2*HP)*(NZ+2*HP)*(dim)) //Global Index V Mesh
-#define GW(i,j,k,dim) ((NY+2*HP)*(NZ+1+2*HP))*((i)+HP) + (((j)+HP) + ((k)+HP)*(NY+2*HP)) + ((NX+2*HP)*(NY+2*HP)*(NZ+1+2*HP)*(dim)) //Global Index W Mesh
+//Global Index P Mesh
+#define GP(i,j,k,Dim) (NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*((i) + HaloPressure) + ((j) + HaloPressure) + ((k) + HaloPressure)*(NY + 2*HaloPressure) + (NX + 2*HaloPressure)*(NY + 2*HaloPressure)*(NZ + 2*HaloPressure)*(Dim)
+
+//Global Index U Mesh
+#define GU(i,j,k,Dim) (NY + 2*HaloU)*(NZ + 2*HaloU)*((i) + HaloU) + ((j) + HaloU) + ((k) + HaloU)*(NY + 2*HaloU) + (NX + 1 + 2*HaloU)*(NY + 2*HaloU)*(NZ + 2*HaloU)*(Dim)
+
+//Global Index V Mesh
+#define GV(i,j,k,Dim) (NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*((i) + HaloV) + ((j) + HaloV) + ((k) + HaloV)*(NY + 1 + 2*HaloV) + (NX + 2*HaloV)*(NY + 1 + 2*HaloV)*(NZ + 2*HaloV)*(Dim)
+
+//Global Index W Mesh
+#define GW(i,j,k,Dim) (NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*((i) + HaloW) + ((j) + HaloW) + ((k) + HaloW)*(NY + 2*HaloW) + (NX + 2*HaloW)*(NY + 2*HaloW)*(NZ + 1 + 2*HaloW)*(Dim)
 
 //Constructor del mallador
 Mesher::Mesher(Memory M1, ReadData R1, ParPro MPI1, string InputDirectorio){
@@ -59,11 +66,15 @@ Mesher::Mesher(Memory M1, ReadData R1, ParPro MPI1, string InputDirectorio){
 	//Datos necesarios para computación paralela
 	Rank = MPI1.Rank;
 	Procesos = MPI1.Procesos;
-		
+
+	HaloPressure = 1;
+	HaloU = 2;
+	HaloV = 2;
+	HaloW = 2;
+
 	HP = 2;
 
 	if(Problema == 1 || Problema == 2){
-
 		NX = R1.ProblemNumericalData[2];
 		NY = R1.ProblemNumericalData[3]; 
 	}
@@ -101,10 +112,10 @@ Mesher::Mesher(Memory M1, ReadData R1, ParPro MPI1, string InputDirectorio){
 void Mesher::AllocateMemory(Memory M1){
 
 	//Matrices del Mallado del problema
-	MP = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz de presión/temperatura
-	MU = M1.AllocateDouble(NX + 1 + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz velocidad U
-	MV = M1.AllocateDouble(NX + 2*HP, NY + 1 + 2*HP, NZ + 2*HP, 3); //Coordenadas matriz velocidad V
-	MW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 1 + 2*HP, 3); //Coordenadas matriz velocidad W
+	MP = M1.AllocateDouble(NX + 2*HaloPressure, NY + 2*HaloPressure, NZ + 2*HaloPressure, 3); //Coordenadas matriz de presión/temperatura
+	MU = M1.AllocateDouble(NX + 1 + 2*HaloU, NY + 2*HaloU, NZ + 2*HaloU, 3); //Coordenadas matriz velocidad U
+	MV = M1.AllocateDouble(NX + 2*HaloV, NY + 1 + 2*HaloV, NZ + 2*HaloV, 3); //Coordenadas matriz velocidad V
+	MW = M1.AllocateDouble(NX + 2*HaloW, NY + 2*HaloW, NZ + 1 + 2*HaloW, 3); //Coordenadas matriz velocidad W
 
 	//Código:
 	//0 -> Coordenada X
@@ -112,10 +123,10 @@ void Mesher::AllocateMemory(Memory M1){
 	//2 -> Coordenada Z
 	
 	//Matrices de distancias de volúmenes de control
-	DeltasMP = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Deltas de la matriz de Presión/Temperatura
-	DeltasMU = M1.AllocateDouble(NX+1 + 2*HP, NY + 2*HP, NZ + 2*HP, 3); //Deltas de la matriz de velocidades (U)
-	DeltasMV = M1.AllocateDouble(NX + 2*HP, NY+1 + 2*HP, NZ + 2*HP, 3); //Deltas de la matriz de velocidades (V)
-	DeltasMW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ+1 + 2*HP, 3); //Deltas de la matriz de velocidades (W)
+	DeltasMP = M1.AllocateDouble(NX + 2*HaloPressure, NY + 2*HaloPressure, NZ + 2*HaloPressure, 3); //Deltas de la matriz de Presión/Temperatura
+	DeltasMU = M1.AllocateDouble(NX + 1 + 2*HaloU, NY + 2*HaloU, NZ + 2*HaloU, 3); //Deltas de la matriz de velocidades (U)
+	DeltasMV = M1.AllocateDouble(NX + 2*HaloV, NY + 1 + 2*HaloV, NZ + 2*HaloV, 3); //Deltas de la matriz de velocidades (V)
+	DeltasMW = M1.AllocateDouble(NX + 2*HaloW, NY + 2*HaloW, NZ + 1 + 2*HaloW, 3); //Deltas de la matriz de velocidades (W)
 
 	//Código:
 	//0 -> Delta X
@@ -123,10 +134,10 @@ void Mesher::AllocateMemory(Memory M1){
 	//2 -> Delta Z
 
 	//Matrices de superficies de volúmenes de control
-	SupMP = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 2*HP, 6); //Superficies de los volúmenes de la matriz de Presión/Temperatura
-	SupMU = M1.AllocateDouble(NX+1 + 2*HP, NY + 2*HP, NZ + 2*HP, 6); //Superficies de los volúmenes de la matriz de velocidades (U)
-	SupMV = M1.AllocateDouble(NX + 2*HP, NY+1 + 2*HP, NZ + 2*HP, 6); //Superficies de los volúmenes de la matriz de velocidades (V)
-	SupMW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ+1 + 2*HP, 6); //Superficies de los volúmenes de la matriz de velocidades (V)
+	SupMP = M1.AllocateDouble(NX + 2*HaloPressure, NY + 2*HaloPressure, NZ + 2*HaloPressure, 6); //Superficies de los volúmenes de la matriz de Presión/Temperatura
+	SupMU = M1.AllocateDouble(NX + 1 + 2*HaloU, NY + 2*HaloU, NZ + 2*HaloU, 6); //Superficies de los volúmenes de la matriz de velocidades (U)
+	SupMV = M1.AllocateDouble(NX + 2*HaloV, NY + 1 + 2*HaloV, NZ + 2*HaloV, 6); //Superficies de los volúmenes de la matriz de velocidades (V)
+	SupMW = M1.AllocateDouble(NX + 2*HaloW, NY + 2*HaloW, NZ + 1 + 2*HaloW, 6); //Superficies de los volúmenes de la matriz de velocidades (V)
 
 	//Código:
 	//0 -> West
@@ -137,10 +148,10 @@ void Mesher::AllocateMemory(Memory M1){
 	//5 -> There
 
 	//Matrices de volúmenes de los volúmenes de control
-	VolMP = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ + 2*HP, 1); //Volúmenes de los volúmenes de la matriz de Presión/Temperatura
-	VolMU = M1.AllocateDouble(NX+1 + 2*HP, NY + 2*HP, NZ + 2*HP, 1); //Volúmenes de los volúmenes de la matriz de velocidades (U)
-	VolMV = M1.AllocateDouble(NX + 2*HP, NY+1 + 2*HP, NZ + 2*HP, 1); //Volúmenes de los volúmenes de la matriz de velocidades (V)
-	VolMW = M1.AllocateDouble(NX + 2*HP, NY + 2*HP, NZ+1, 1); //Volúmenes de los volúmenes de la matriz de velocidades (W)
+	VolMP = M1.AllocateDouble(NX + 2*HaloPressure, NY + 2*HaloPressure, NZ + 2*HaloPressure, 1); //Volúmenes de los volúmenes de la matriz de Presión/Temperatura
+	VolMU = M1.AllocateDouble(NX + 1 + 2*HaloU, NY + 2*HaloU, NZ + 2*HaloU, 1); //Volúmenes de los volúmenes de la matriz de velocidades (U)
+	VolMV = M1.AllocateDouble(NX + 2*HaloV, NY + 1 + 2*HaloV, NZ + 2*HaloV, 1); //Volúmenes de los volúmenes de la matriz de velocidades (V)
+	VolMW = M1.AllocateDouble(NX + 2*HaloW, NY + 2*HaloW, NZ + 1 + 2*HaloW, 1); //Volúmenes de los volúmenes de la matriz de velocidades (W)
 
 }
 
@@ -164,9 +175,9 @@ double nz = NZ;
 		if(OptionX == 1){ //Discretización Regular
 
 			//Malla Velocidades U
-			for(i = - HP; i < NX + 1 + HP; i++){
-				for(j = - HP; j < NY + HP; j++){
-					for(k = - HP; k < NZ + HP; k++){
+			for(i = - HaloU; i < NX + 1 + HaloU; i++){
+				for(j = - HaloU; j < NY + HaloU; j++){
+					for(k = - HaloU; k < NZ + HaloU; k++){
 						MU[GU(i,j,k,0)] = i*(Xdominio/nx);
 					}
 				}
@@ -176,9 +187,9 @@ double nz = NZ;
 		else if(OptionX == 2){ //Discretización Tangencial Hiperbólica
 
 			//Malla Velocidades U
-			for(i = - HP; i < NX + 1 + HP; i++){
-				for(j = - HP; j < NY + HP; j++){
-					for(k = - HP; k < NZ + HP; k++){
+			for(i = - HaloU; i < NX + 1 + HaloU; i++){
+				for(j = - HaloU; j < NY + HaloU; j++){
+					for(k = - HaloU; k < NZ + HaloU; k++){
 						I = i;
 						MU[GU(i,j,k,0)] = (Xdominio/2.0)*(1.0 + (tanh(SFX*((2.0*I - nx)/nx)) + tanh(SFX))/tanh(SFX) - 1.0);
 					}
@@ -188,29 +199,29 @@ double nz = NZ;
 		}
 
 		//Matriz de Presiones P
-		for(i = - HP; i < NX + HP; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
+		for(i = - HaloPressure; i < NX + HaloPressure; i++){
+			for(j = - HaloPressure; j < NY + HaloPressure; j++){
+				for(k = - HaloPressure; k < NZ + HaloPressure; k++){
 					MP[GP(i,j,k,0)] = 0.50*(MU[GU(i,j,k,0)] + MU[GU(i+1,j,k,0)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades V
-		for(i = - HP; i < NX + HP; i++){
-			for(k = - HP; k < NZ + HP; k++){
-				MV[GV(i,NY+HP,k,0)] = 0.50*(MU[GU(i,NY-1 + HP,k,0)] + MU[GU(i+1,NY-1 + HP,k,0)]);
-				for(j = - HP; j < NY + HP; j++){
+		for(i = - HaloPressure; i < NX + HaloPressure; i++){
+			for(k = - HaloPressure; k < NZ + HaloPressure; k++){
+				MV[GV(i,NY + HaloV,k,0)] = 0.50*(MU[GU(i,NY - 1 + HaloU,k,0)] + MU[GU(i + 1,NY-1 + HaloU,k,0)]);
+				for(j = - HaloPressure; j < NY + HaloPressure; j++){
 					MV[GV(i,j,k,0)] = 0.50*(MU[GU(i,j,k,0)] + MU[GU(i+1,j,k,0)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades W
-		for(i = - HP; i < NX + HP; i++){
-			for(j = - HP; j < NY + HP; j++){
-				MW[GW(i,j,NZ + HP,0)] = 0.50*(MU[GU(i,j,NZ-1 + HP,0)] + MU[GU(i+1,j,NZ-1 + HP,0)]);
-				for(k = - HP; k < NZ + HP; k++){
+		for(i = - HaloPressure; i < NX + HaloPressure; i++){
+			for(j = - HaloPressure; j < NY + HaloPressure; j++){
+				MW[GW(i,j,NZ + HaloPressure,0)] = 0.50*(MU[GU(i,j,NZ-1 + HaloPressure,0)] + MU[GU(i+1,j,NZ-1 + HaloPressure,0)]);
+				for(k = - HaloPressure; k < NZ + HaloPressure; k++){
 					MW[GW(i,j,k,0)] = 0.50*(MU[GU(i,j,k,0)] + MU[GU(i+1,j,k,0)]);
 				}
 			}
@@ -326,9 +337,9 @@ double nz = NZ;
 		if(OptionY == 1){ //Discretización Regular
 
 			//Malla Velocidades V
-			for(i = - HP; i < NX + HP; i++){
-				for(j = - HP; j < NY + 1 + HP; j++){
-					for(k = - HP; k < NZ + HP; k++){
+			for(i = - HaloV; i < NX + HaloV; i++){
+				for(j = - HaloV; j < NY + 1 + HaloV; j++){
+					for(k = - HaloV; k < NZ + HaloV; k++){
 						MV[GV(i,j,k,1)] = j*(Ydominio/ny);
 					}
 				}
@@ -338,9 +349,9 @@ double nz = NZ;
 		else if(OptionY == 2){ //Discretización Tangencial Hiperbólica
 
 			//Malla Velocidades V
-			for(i = - HP; i < NX + HP; i++){
-				for(j = - HP; j < NY + 1 + HP; j++){
-					for(k = - HP; k < NZ + HP; k++){
+			for(i = - HaloV; i < NX + HaloV; i++){
+				for(j = - HaloV; j < NY + 1 + HaloV; j++){
+					for(k = - HaloV; k < NZ + HaloV; k++){
 						J = j;
 						MV[GV(i,j,k,1)] = (Ydominio/2.0)*(1.0 + (tanh(SFY*((2.0*J - ny)/ny)) + tanh(SFY))/tanh(SFY) - 1.0);
 					}
@@ -350,29 +361,29 @@ double nz = NZ;
 		}
 
 		//Matriz de Presiones P
-		for(i = - HP; i < NX + HP; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
+		for(i = - HaloPressure; i < NX + HaloPressure; i++){
+			for(j = - HaloPressure; j < NY + HaloPressure; j++){
+				for(k = - HaloPressure; k < NZ + HaloPressure; k++){
 					MP[GP(i,j,k,1)] = 0.50*(MV[GV(i,j,k,1)] + MV[GV(i,j+1,k,1)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades U
-		for(k = - HP; k < NZ + HP; k++){
-			for(j = - HP; j < NY + HP; j++){
-				MU[GU(NX + HP,j,k,1)] = 0.50*(MV[GV(NX-1 + HP,j,k,1)] + MV[GV(NX-1 + HP,j+1,k,1)]);
-				for(i = - HP; i < NX + HP; i++){
+		for(k = - HaloU; k < NZ + HaloU; k++){
+			for(j = - HaloU; j < NY + HaloU; j++){
+				MU[GU(NX + HaloU,j,k,1)] = 0.50*(MV[GV(NX-1 + HaloV,j,k,1)] + MV[GV(NX-1 + HaloV,j+1,k,1)]);
+				for(i = - HaloU; i < NX + HaloU; i++){
 					MU[GU(i,j,k,1)] = 0.50*(MV[GV(i,j,k,1)] + MV[GV(i,j+1,k,1)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades W
-		for(i = - HP; i < NX + HP; i++){
-			for(j = - HP; j < NY + HP; j++){
-				MW[GW(i,j,NZ + HP,1)] = 0.50*(MV[GV(i,j,NZ-1 + HP,1)] + MV[GV(i,j+1,NZ-1 + HP,1)]);
-				for(k = - HP; k < NZ + HP; k++){
+		for(i = - HaloW; i < NX + HaloW; i++){
+			for(j = - HaloW; j < NY + HaloW; j++){
+				MW[GW(i,j,NZ + HaloW,1)] = 0.50*(MV[GV(i,j,NZ-1 + HaloV,1)] + MV[GV(i,j+1,NZ-1 + HaloV,1)]);
+				for(k = - HP; k < NZ + HaloW; k++){
 					MW[GW(i,j,k,1)] = 0.50*(MV[GV(i,j,k,1)] + MV[GV(i,j+1,k,1)]);
 				}
 			}
@@ -486,9 +497,9 @@ double nz = NZ;
 		if(OptionZ == 1){ //Discretización Regular
 
 			//Malla Velocidades W
-			for(i = - HP; i < NX + HP; i++){
-				for(j = - HP; j < NY + HP; j++){
-					for(k = - HP; k < NZ + 1 + HP; k++){
+			for(i = - HaloW; i < NX + HaloW; i++){
+				for(j = - HaloW; j < NY + HaloW; j++){
+					for(k = - HaloW; k < NZ + 1 + HaloW; k++){
 						MW[GW(i,j,k,2)] = k*(Zdominio/NZ);
 					}
 				}
@@ -498,9 +509,9 @@ double nz = NZ;
 		else if(OptionZ == 2){ //Discretización Tangencial Hiperbólica
 
 			//Malla Velocidades W
-			for(i = - HP; i < NX + HP; i++){
-				for(j = - HP; j < NY + HP; j++){
-					for(k = - HP; k < NZ + 1 + HP; k++){
+			for(i = - HaloW; i < NX + HaloW; i++){
+				for(j = - HaloW; j < NY + HaloW; j++){
+					for(k = - HaloW; k < NZ + 1 + HaloW; k++){
 						K = k;
 						MW[GW(i,j,k,2)] = (Zdominio/2.0)*(1.0 + (tanh(SFZ*((2.0*K - nz)/nz)) + tanh(SFZ))/tanh(SFZ) - 1.0);
 					}
@@ -510,28 +521,28 @@ double nz = NZ;
 		}
 
 		//Matriz de Presiones P
-		for(i = - HP; i < NX + HP; i++){
-			for(j = - HP; j < NY + HP; j++){
-				for(k = - HP; k < NZ + HP; k++){
+		for(i = - HaloPressure; i < NX + HaloPressure; i++){
+			for(j = - HaloPressure; j < NY + HaloPressure; j++){
+				for(k = - HaloPressure; k < NZ + HaloPressure; k++){
 					MP[GP(i,j,k,2)] = 0.50*(MW[GW(i,j,k,2)] + MW[GW(i,j,k+1,2)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades U
-		for(k = - HP; k < NZ + HP; k++){
-			for(j = - HP; j < NY + HP; j++){
-				MU[GU(NX + HP,j,k,2)] = 0.50*(MW[GW(NX-1 + HP,j,k,2)] + MW[GW(NX-1 + HP,j,k+1,2)]);
-				for(i = - HP; i < NX + HP; i++){
+		for(k = - HaloU; k < NZ + HaloU; k++){
+			for(j = - HaloU; j < NY + HaloU; j++){
+				MU[GU(NX + HaloU,j,k,2)] = 0.50*(MW[GW(NX - 1 + HaloW,j,k,2)] + MW[GW(NX - 1 + HaloW,j,k+1,2)]);
+				for(i = - HaloU; i < NX + HaloU; i++){
 					MU[GU(i,j,k,2)] = 0.50*(MW[GW(i,j,k,2)] + MW[GW(i,j,k+1,2)]);
 				}
 			}
 		}
 
 		//Matriz de Velocidades V
-		for(i = - HP; i < NX + HP; i++){
-			for(k = - HP; k < NZ + HP; k++){
-				MV[GV(i,NY + HP,k,2)] = 0.50*(MW[GW(i,NY-1 + HP,k,2)] + MW[GW(i,NY-1 + HP,k+1,2)]);
+		for(i = - HaloV; i < NX + HaloV; i++){
+			for(k = - HaloV; k < NZ + HaloV; k++){
+				MV[GV(i,NY + HaloV,k,2)] = 0.50*(MW[GW(i,NY-1 + HaloV,k,2)] + MW[GW(i,NY-1 + HaloV,k+1,2)]);
 				for(j = - HP; j < NY + HP; j++){
 					MV[GV(i,j,k,2)] = 0.50*(MW[GW(i,j,k,2)] + MW[GW(i,j,k+1,2)]);
 				}
@@ -911,6 +922,7 @@ int i, j, k;
 		}
 	}
 
+	
 	//Volúmenes Matriz W
 	for(i = 0; i < NX; i++){
 		for(j = 0; j < NY; j++){
@@ -981,8 +993,8 @@ int i, j, k;
 	Get_Volumes(); //Cálculo de los volúmenes de control de cada volúmen
 
 	if(Rank == 0){	
-		PrintTxt(); //Pasar los resultados de las mallas a un txt
-		MallaVTK3D("ParaviewResults/MeshResults/", "MallaP", "MallaMP", MP, NX, NY, NZ);
+	//	PrintTxt(); //Pasar los resultados de las mallas a un txt
+	//	MallaVTK3D("ParaviewResults/MeshResults/", "MallaP", "MallaMP", MP, NX, NY, NZ);
 		cout<<"Mesh created."<<endl;
 	}
 
