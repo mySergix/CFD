@@ -64,6 +64,11 @@ class Solver{
 		int Fx;
 		int Halo;
 
+		int HaloPressure;
+		int HaloU;
+		int HaloV; 
+		int HaloW;
+
 		int HP;
 		
 		//Datos Físicos del Problema
@@ -105,17 +110,10 @@ class Solver{
 		//Matrices del Solver
 
 		//Matrices globales de propiedades
-		double *UGFUT; //Velocidad U Global Futuro
-		double *VGFUT; //Velocidad V Global Futuro
-		double *WGFUT; //Velocidad W Global Futuro
-		double *TGFUT; //Temperatura T Global Futuro
-
-		double *PGPRES; //Presión P Global Presente
-		double *UGPRES; //Velocidad U Global Presente
-		double *VGPRES; //Velocidad V Global Presente
-		double *WGPRES; //Velocidad W Global Presente
-		double *TGPRES; //Temperatura T Global Presente
-		
+		double *UGlobal; //Velocidad U Global
+		double *VGlobal; //Velocidad V Global
+		double *WGlobal; //Velocidad W Global
+		double *PGlobal; //Presion P Global
 
 		//Matrices locales de propiedades en los nodos de Presión
 
@@ -169,6 +167,15 @@ class Solver{
 		double *VL_NEW;
 		double *WL_NEW;
 		double *TL_NEW;
+
+		double *ContribucionUpres;
+		double *ContribucionUpast;
+
+		double *ContribucionVpres;
+		double *ContribucionVpast;
+
+		double *ContribucionWpres;
+		double *ContribucionWpast;
 
 		//Matrices de los coeficientes de discretización de presión
 		double *aw;
@@ -260,8 +267,10 @@ class Solver{
 
 		void Get_BoussinesqTerm(Mesher);
 
-		void Get_RungeKuttaVelocities(Mesher, ParPro);
-		void Get_RungeKuttaTemperature(Mesher, ParPro);
+		void Get_Contributions(Mesher, ParPro);
+
+		//void Get_RungeKuttaVelocities(Mesher, ParPro);
+		//void Get_RungeKuttaTemperature(Mesher, ParPro);
 
 		void Get_PredictorsDivergence(Mesher, ParPro);
 

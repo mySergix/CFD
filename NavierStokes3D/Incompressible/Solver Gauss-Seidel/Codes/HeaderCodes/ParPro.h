@@ -26,6 +26,11 @@ class ParPro{
 		int Halo;
 		int pix, pfx;
 
+		int HaloPressure;
+		int HaloU;
+		int HaloV; 
+		int HaloW;
+		
 		int HP;
 
 		//Constructor de la clase

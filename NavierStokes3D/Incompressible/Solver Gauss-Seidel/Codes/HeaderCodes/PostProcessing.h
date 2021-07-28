@@ -45,9 +45,18 @@ class PostProcessing{
 		int Halo;
 		int HP;
 
+		int HaloPressure;
+		int HaloU;
+		int HaloV; 
+		int HaloW;
+		
 		string DIRECTORIO;
 		
 		//Metodos de la clase
+
+		void LocalEscalarVTK3D(string, string, string, double*, double*, int, int, int, int, int);
+		void LocalEscalarCoefficientsVTK3D(string, string, string, double*, double*, int, int, int, int);
+		void LocalVectorialVTK3D(Mesher, string, string, string, double*, double*, double*, double*, int, int, int, int, int);
 
 		void EscalarVTK3D(string, string, string, double*, double*, int, int, int);
 		void VectorialVTK3D(Mesher, string, string, string, double*, double*, double*, double*, int, int, int);

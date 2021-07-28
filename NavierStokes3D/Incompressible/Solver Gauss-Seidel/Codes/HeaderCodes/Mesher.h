@@ -57,6 +57,11 @@ class Mesher{
 		int Ix;
 		int Fx;
 		
+		int HaloPressure;
+		int HaloU;
+		int HaloV; 
+		int HaloW;
+		
 		int HP;
 		
 		string DIRECTORIO;
