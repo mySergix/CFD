@@ -17,7 +17,7 @@ default: $(CODE)
 C = mpic++
 
 $(CODE): $(CODE).cpp $(INC)
-	$(C) -o $(CODE) $(CODE).cpp $(DIRECTORIO_CLASES)$(CLASS1).cpp $(DIRECTORIO_CLASES)$(CLASS2).cpp $(DIRECTORIO_CLASES)$(CLASS3).cpp $(DIRECTORIO_CLASES)$(CLASS4).cpp $(DIRECTORIO_CLASES)$(CLASS5).cpp $(DIRECTORIO_CLASES)$(CLASS6).cpp
+	$(C) -o $(CODE) $(CODE).cpp $(DIRECTORIO_CLASES)$(CLASS1).cpp $(DIRECTORIO_CLASES)$(CLASS2).cpp $(DIRECTORIO_CLASES)$(CLASS3).cpp $(DIRECTORIO_CLASES)$(CLASS4).cpp $(DIRECTORIO_CLASES)$(CLASS5).cpp $(DIRECTORIO_CLASES)$(CLASS6).cpp -O3
 	
 #-------------------------------------------------------------------------------
 # Remove all but the files in the original distribution
