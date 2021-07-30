@@ -2169,12 +2169,12 @@ int i, j, k;
 			for(k = 1; k < NZ - 1; k++){
 				for(j = 1; j < NY - 1; j++){
 					DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 				}
 			}
@@ -2190,24 +2190,24 @@ int i, j, k;
 				j = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 				//Parte Superior
 				j = NY - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2219,24 +2219,24 @@ int i, j, k;
 				k = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 				//Parte There
 				k = NZ - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2248,12 +2248,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Abajo There
@@ -2261,12 +2261,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			//Fila Arriba Here
@@ -2274,12 +2274,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Arriba There
@@ -2287,12 +2287,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 			
 		}
@@ -2305,12 +2305,12 @@ int i, j, k;
 			for(k = 1; k < NZ-1; k++){
 				for(j = 1; j < NY-1; j++){
 					DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 				}
 			}
@@ -2325,24 +2325,24 @@ int i, j, k;
 				j = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 				//Parte Superior
 				j = NY - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2354,24 +2354,24 @@ int i, j, k;
 				k = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 				//Parte There
 				k = NZ - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2383,12 +2383,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Abajo There
@@ -2396,12 +2396,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			//Fila Arriba Here
@@ -2409,12 +2409,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Arriba There
@@ -2422,12 +2422,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 		}
@@ -2440,12 +2440,12 @@ int i, j, k;
 			for(k = 1; k < NZ - 1; k++){
 				for(j = 1; j < NY - 1; j++){
 					DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 				}
 			}
@@ -2460,24 +2460,24 @@ int i, j, k;
 				j = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 				//Parte Superior
 				j = NY - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2489,24 +2489,24 @@ int i, j, k;
 				k = 0;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 				//Parte There
 				k = NZ - 1;
 
 				DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			}
@@ -2518,12 +2518,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Abajo There
@@ -2531,12 +2531,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(ULPRES[LU(i,j+1,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(UFIELD[LU(i,j+1,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - Ubot[UBOT(i,j,k)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 			//Fila Arriba Here
@@ -2544,12 +2544,12 @@ int i, j, k;
 			k = 0;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(ULPRES[LU(i,j,k+1,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - Uhere[UHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,k+1,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 			//Fila Arriba There
@@ -2557,12 +2557,12 @@ int i, j, k;
 			k = NZ - 1;
 
 			DiffusiveU[LU(i,j,k,0)] = (mu/(Rho*MESH.VolMU[GU(i,j,k,0)]))*(
-											+ MESH.SupMU[GU(i,j,k,1)]*(ULPRES[LU(i+1,j,k,0)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
-											- MESH.SupMU[GU(i,j,k,0)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
-											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
-											- MESH.SupMU[GU(i,j,k,2)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
-											+ MESH.SupMU[GU(i,j,k,5)]*(Uthere[UTHERE(i,j,k)] - ULPRES[LU(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMU[GU(i,j,k,4)]*(ULPRES[LU(i,j,k,0)] - ULPRES[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
+											+ MESH.SupMU[GU(i,j,k,1)]*(UFIELD[LU(i+1,j,k,0)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,0)]
+											- MESH.SupMU[GU(i,j,k,0)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i-1,j,k,0)])/MESH.DeltasMP[GP(i-1,j,k,0)]
+											+ MESH.SupMU[GU(i,j,k,3)]*(Utop[UTOP(i,j,k)] - UFIELD[LU(i,j,k,0)])/MESH.DeltasMV[GV(i,j+1,k,1)]
+											- MESH.SupMU[GU(i,j,k,2)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j-1,k,0)])/MESH.DeltasMV[GV(i,j,k,1)]
+											+ MESH.SupMU[GU(i,j,k,5)]*(UFIELD[LU(i,j,0,0)] - UFIELD[LU(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
+											- MESH.SupMU[GU(i,j,k,4)]*(UFIELD[LU(i,j,k,0)] - UFIELD[LU(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
 		}
@@ -2607,7 +2607,7 @@ int i, j, k;
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
 											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,k+1,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - Vhere[VHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 				//Parte There
@@ -2618,7 +2618,7 @@ int i, j, k;
 											- MESH.SupMV[GV(i,j,k,0)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i-1,j,k,0)])/MESH.DeltasMU[GU(i,j,k,0)]
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
-											+ MESH.SupMV[GV(i,j,k,5)]*(Vthere[VTHERE(i,j,k)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,0,0)] - VFIELD[LV(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
 											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
@@ -2656,7 +2656,7 @@ int i, j, k;
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
 											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,k+1,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - Vhere[VHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 			}
 
@@ -2669,7 +2669,7 @@ int i, j, k;
 											- MESH.SupMV[GV(i,j,k,0)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i-1,j,k,0)])/MESH.DeltasMU[GU(i,j,k,0)]
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
-											+ MESH.SupMV[GV(i,j,k,5)]*(Vthere[VTHERE(i,j,k)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,0,0)] - VFIELD[LV(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
 											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
@@ -2709,7 +2709,7 @@ int i, j, k;
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
 											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,k+1,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - Vhere[VHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 		}
@@ -2723,7 +2723,7 @@ int i, j, k;
 											- MESH.SupMV[GV(i,j,k,0)]*(VFIELD[LV(i,j,k,0)] - Vleft[VLEFT(i,j,k)])/MESH.DeltasMU[GU(i,j,k,0)]
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
-											+ MESH.SupMV[GV(i,j,k,5)]*(Vthere[VTHERE(i,j,k)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,0,0)] - VFIELD[LV(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
 											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 		}
@@ -2759,7 +2759,7 @@ int i, j, k;
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
 											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,k+1,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - Vhere[VHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 			}
 
@@ -2773,7 +2773,7 @@ int i, j, k;
 											- MESH.SupMV[GV(i,j,k,0)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i-1,j,k,0)])/MESH.DeltasMU[GU(i,j,k,0)]
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
-											+ MESH.SupMV[GV(i,j,k,5)]*(Vthere[VTHERE(i,j,k)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,0,0)] - VFIELD[LV(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
 											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
@@ -2811,7 +2811,7 @@ int i, j, k;
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
 											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,k+1,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
-											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - Vhere[VHERE(i,j,k)])/MESH.DeltasMW[GW(i,j,k,2)]
+											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j,NZ-1,0)])/(2.0*MESH.DeltasMW[GW(i,j,k,2)])
 											);
 
 		}
@@ -2825,7 +2825,7 @@ int i, j, k;
 											- MESH.SupMV[GV(i,j,k,0)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i-1,j,k,0)])/MESH.DeltasMU[GU(i,j,k,0)]
 											+ MESH.SupMV[GV(i,j,k,3)]*(VFIELD[LV(i,j+1,k,0)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMP[GP(i,j,k,1)]
 											- MESH.SupMV[GV(i,j,k,2)]*(VFIELD[LV(i,j,k,0)] - VFIELD[LV(i,j-1,k,0)])/MESH.DeltasMP[GP(i,j-1,k,1)]
-											+ MESH.SupMV[GV(i,j,k,5)]*(Vthere[VTHERE(i,j,k)] - VFIELD[LV(i,j,k,0)])/MESH.DeltasMW[GW(i,j,k+1,2)]
+											+ MESH.SupMV[GV(i,j,k,5)]*(VFIELD[LV(i,j,0,0)] - VFIELD[LV(i,j,k,0)])/(2.0*MESH.DeltasMW[GW(i,j,k+1,2)])
 											- MESH.SupMV[GV(i,j,k,4)]*(VFIELD[LV(i,j,k,0)] - VLPRES[LV(i,j,k-1,0)])/MESH.DeltasMW[GW(i,j,k,2)]
 											);
 
@@ -3117,7 +3117,7 @@ double uW_pred, uE_pred, uS_pred, uN_pred, uH_pred, uT_pred, vS_pred, vN_pred, w
 			for(k = 1; k < NZ - 1; k++){
 				for(j = 1; j < NY - 1; j++){
 
-					uW_pred = Interpolacion(MESH.MP[GP(i-1,j,k,0)], MESH.MU[GU(i-1,j,k,0)], ULPRES[LU(i-1,j,k,0)], MESH.MU[GU(i,j,k,0)], ULPRES[LU(i,j,k,0)]);
+					uW_pred = Interpolacion(MESH.MP[GP(i-1,j,k,0)], MESH.MU[GU(i-1,j,k,0)], UFIELD[LU(i-1,j,k,0)], MESH.MU[GU(i,j,k,0)], ULPRES[LU(i,j,k,0)]);
 					uE_pred = Interpolacion(MESH.MP[GP(i,j,k,0)], MESH.MU[GU(i,j,k,0)], UFIELD[LU(i,j,k,0)], MESH.MU[GU(i+1,j,k,0)], UFIELD[LU(i+1,j,k,0)]);
 
 					uS_pred = Interpolacion(MESH.MV[GV(i,j,k,1)], MESH.MU[GU(i,j-1,k,1)], UFIELD[LU(i,j-1,k,0)], MESH.MU[GU(i,j,k,1)], UFIELD[LU(i,j,k,0)]);
@@ -5856,8 +5856,8 @@ int i, j, k;
 	Get_DiffusiveW(MESH, WLPRES);
 
 	Get_ConvectiveU(MESH, ULPRES, VLPRES, WLPRES);
-	Get_ConvectiveV(MESH, ULPRES, VLPRES, WLPRES);
-//	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
+//	Get_ConvectiveV(MESH, ULPRES, VLPRES, WLPRES);
+	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
 
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
@@ -6041,6 +6041,8 @@ int i, j, k;
 MaxDiffGS = 2.0*ConvergenciaGS;
 
 	while(MaxDiffGS >= ConvergenciaGS){
+
+		MPI1.CommunicateDataLP(PLFUT, PLFUT, Ix, Fx);
 
 		if(Rank != 0 && Rank != Procesos - 1){
 
@@ -6337,6 +6339,27 @@ MaxDiffGS = 2.0*ConvergenciaGS;
 				PLFUT[LP(i,j,k,0)] = (aw[LA(i,j,k,0)]*PLFUT[LP(i-1,j,k,0)] + as[LA(i,j,k,0)]*PLFUT[LP(i,j-1,k,0)] + an[LA(i,j,k,0)]*PLFUT[LP(i,j+1,k,0)] + ah[LA(i,j,k,0)]*PLFUT[LP(i,j,k-1,0)] + at[LA(i,j,k,0)]*PLFUT[LP(i,j,0,0)] + bp[LA(i,j,k,0)])/ap[LA(i,j,k,0)];
 			}
 
+			//Esquina Abajo Here
+			j = 0;
+			k = 0;
+			PLFUT[LP(i,j,k,0)] = (aw[LA(i,j,k,0)]*PLFUT[LP(i-1,j,k,0)] + an[LA(i,j,k,0)]*PLFUT[LP(i,j+1,k,0)] + ah[LA(i,j,k,0)]*PLFUT[LP(i,j,NZ - 1,0)] + at[LA(i,j,k,0)]*PLFUT[LP(i,j,k+1,0)] + bp[LA(i,j,k,0)])/ap[LA(i,j,k,0)];
+		
+			//Esquina Arriba Here
+			j = NY - 1;
+			k = 0;
+			PLFUT[LP(i,j,k,0)] = (aw[LA(i,j,k,0)]*PLFUT[LP(i-1,j,k,0)] + as[LA(i,j,k,0)]*PLFUT[LP(i,j-1,k,0)] + ah[LA(i,j,k,0)]*PLFUT[LP(i,j,NZ - 1,0)] + at[LA(i,j,k,0)]*PLFUT[LP(i,j,k+1,0)] + bp[LA(i,j,k,0)])/ap[LA(i,j,k,0)];
+		
+			//Esquina Abajo There
+			j = 0;
+			k = NZ - 1;
+
+			PLFUT[LP(i,j,k,0)] = (aw[LA(i,j,k,0)]*PLFUT[LP(i-1,j,k,0)] + an[LA(i,j,k,0)]*PLFUT[LP(i,j+1,k,0)] + ah[LA(i,j,k,0)]*PLFUT[LP(i,j,k-1,0)] + at[LA(i,j,k,0)]*PLFUT[LP(i,j,0,0)] + bp[LA(i,j,k,0)])/ap[LA(i,j,k,0)];
+			
+			//Esquina Arriba There
+			j = NY - 1;
+			k = NZ - 1;
+			PLFUT[LP(i,j,k,0)] = (aw[LA(i,j,k,0)]*PLFUT[LP(i-1,j,k,0)] + as[LA(i,j,k,0)]*PLFUT[LP(i,j-1,k,0)] + ah[LA(i,j,k,0)]*PLFUT[LP(i,j,k-1,0)] + at[LA(i,j,k,0)]*PLFUT[LP(i,j,0,0)] + bp[LA(i,j,k,0)])/ap[LA(i,j,k,0)];
+			
 		}
 
 		MaxDiffGS = 0.0;
@@ -6346,6 +6369,7 @@ MaxDiffGS = 2.0*ConvergenciaGS;
 				for(j = 0; j < NY; j++){
 					if(abs(PLFUT[LP(i,j,k,0)] - PLSUP[LP(i,j,k,0)]) >= MaxDiffGS){
 						MaxDiffGS = abs(PLFUT[LP(i,j,k,0)] - PLSUP[LP(i,j,k,0)]);
+						
 					}
 				}
 			}
@@ -6353,16 +6377,14 @@ MaxDiffGS = 2.0*ConvergenciaGS;
 
 		MPI_Allreduce(&MaxDiffGS, &MaxDiffGS, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
 
-		//cout<<"MaxDiffGS: "<<MaxDiffGS<<endl;
+		//cout<<"MaxDiff: "<<MaxDiffGS<<endl;
 		for(i = Ix; i < Fx; i++){
 			for(j = 0; j < NY; j++){
 				for(k = 0; k < NZ; k++){
-					PLSUP[LP(i,j,k,0)] = PLFUT[LP(i,j,k,0)];
+					PLSUP[LP(i,j,k,0)] = PLFUT[LP(i,j,k,0)];	
 				}
 			}
 		}
-		
-		MPI1.CommunicateDataLP(PLFUT, PLFUT, Ix, Fx);
 
 	}
 
@@ -6662,7 +6684,7 @@ int i, j, k;
 		}
 	
 		//auto Inicio_Stop = std::chrono::high_resolution_clock::now();
-		if(Step%1 == 0){
+		if(Step%100 == 0){
 			Get_Stop(MPI1);		
 			if(Rank == 0){
 				cout<<"Step: "<<Step<<", Total time: "<<Time<<", MaxDif: "<<MaxDiffGlobal<<endl;
@@ -6673,7 +6695,7 @@ int i, j, k;
 		//Tiempo_Stop += Duracion_Stop;
 
 		//auto Inicio_Post = std::chrono::high_resolution_clock::now();
-		if(Step%10 == 0){
+		if(Step%100 == 0){
 
 			//Envío Matrices Locales a Globales
 			MPI1.SendMatrixToZeroMP(PLFUT, PGlobal, NX, NY, NZ, Procesos, Ix, Fx);
