@@ -5855,9 +5855,9 @@ int i, j, k;
 	Get_DiffusiveV(MESH, VLPRES);
 	Get_DiffusiveW(MESH, WLPRES);
 
-	Get_ConvectiveU(MESH, ULPRES, VLPRES, WLPRES);
+//	Get_ConvectiveU(MESH, ULPRES, VLPRES, WLPRES);
 //	Get_ConvectiveV(MESH, ULPRES, VLPRES, WLPRES);
-	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
+//	Get_ConvectiveW(MESH, ULPRES, VLPRES, WLPRES);
 
 	//Velocidades U
 	for(i = Ix; i < Fx + 1; i++){
