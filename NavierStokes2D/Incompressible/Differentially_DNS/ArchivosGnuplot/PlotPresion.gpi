@@ -1,0 +1,9 @@
+set xrange [0:50]
+set yrange [0:8]
+set title "Ecuación de Navier-Stokes, Mapa de presiones" font "Arial-Bold,30"
+set xlabel "Coordenada X" font "Arial-Bold,20" 
+set ylabel "Coordenada Y" font "Arial-Bold,20"
+set zlabel "Presión P" font "Arial-Bold,20"
+set pm3d
+
+splot '/home/sergiogus/Desktop/CTTC/NavierStokes/Resultados/Presion/Presion.txt' u 1:2:3 w l

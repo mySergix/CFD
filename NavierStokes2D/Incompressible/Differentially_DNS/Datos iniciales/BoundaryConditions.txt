@@ -1,0 +1,96 @@
+Condiciones de contorno de los problemas a resolver
+(No cambiar el formato)
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Velocidades horizontales: (Valores adimensionales)
+
+0.0	Velocidad U en la parte de arriba			
+0	Gradiente de la velocidad U en la parte de arriba	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte izquierda
+0	Gradiente de la velocidad U en la parte izquierda	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte derecha
+0	Gradiente de la velocidad U en la parte derecha		(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte de abajo
+0	Gradiente de la velocidad U en la parte de abajo	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+
+Velocidades verticales: (Valores adimensionales)
+
+0.0	Velocidad V en la parte de arriba			
+0	Gradiente de la velocidad V en la parte de arriba	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte izquierda
+0	Gradiente de la velocidad V en la parte izquierda	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte derecha
+0	Gradiente de la velocidad V en la parte derecha		(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte de abajo
+0	Gradiente de la velocidad V en la parte de abajo	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+Temperaturas en los lados:
+
+0.0	Temperatura en la parte de arriba			
+1	Gradiente de la Temperatura en la parte de arriba	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+1.0	Temperatura en la parte izquierda
+0	Gradiente de la Temperatura en la parte izquierda	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Temperatura en la parte derecha
+0	Gradiente de la Temperatura en la parte derecha		(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Temperatura en la parte de abajo
+1	Gradiente de la Temperatura en la parte de abajo	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+-----------------------------------------------------------------------------------------------------------------------------------
+En caso de seleccionar el problema 3 (sólido en el interior de un conducto)
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Velocidades horizontales: (Valores adimensionales)
+
+0.0	Velocidad U en la parte de arriba del sólido			
+0	Gradiente de la velocidad U en la parte de arriba del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte izquierda del sólido
+0	Gradiente de la velocidad U en la parte izquierda del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte derecha del sólido
+0	Gradiente de la velocidad U en la parte derecha	del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad U en la parte de abajo del sólido
+0	Gradiente de la velocidad U en la parte de abajo del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+Velocidades verticales: (Valores adimensionales)
+
+0.0	Velocidad V en la parte de arriba del sólido			
+0	Gradiente de la velocidad V en la parte de arriba del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte izquierda del sólido
+0	Gradiente de la velocidad V en la parte izquierda del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte derecha del sólido
+0	Gradiente de la velocidad V en la parte derecha del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Velocidad V en la parte de abajo del sólido
+0	Gradiente de la velocidad V en la parte de abajo del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+Temperaturas en los lados:
+
+0.0	Temperatura en la parte de arriba del sólido			
+1	Gradiente de la Temperatura en la parte de arriba del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+1.0	Temperatura en la parte izquierda del sólido
+0	Gradiente de la Temperatura en la parte izquierda del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Temperatura en la parte derecha del sólido
+0	Gradiente de la Temperatura en la parte derecha del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+0.0	Temperatura en la parte de abajo del sólido
+1	Gradiente de la Temperatura en la parte de abajo del sólido	(1 -> Gradiente nulo, 0 -> Gradiente NO nulo)
+
+
+
+
