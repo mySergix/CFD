@@ -1,0 +1,16 @@
+set grid
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set key left top font 'Arial-Bold, 20'
+set title "Rotating Cylinder Lift" font 'Arial-Bold, 20'
+set xlabel "Solid Stream Function Value" font 'Arial-Bold, 20'
+set ylabel "Lift [N]" font 'Arial-Bold, 20'
+set key right top
+
+plot 'CpDownFinal.txt' using 1:2 w lines lw 3 lt rgb "blue" title "Lower Surface",\
+    'CpUpFinal.txt' using 1:2 w lines lw 3 lt rgb "black" title "Upper Surface"
+   
+   
+	
+
+      

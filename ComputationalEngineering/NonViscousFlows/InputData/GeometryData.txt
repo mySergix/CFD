@@ -1,0 +1,10 @@
+Datos sobre la geometría del problema a simular
+(No cambiar el formato)
+
+Geometría del canal
+4	Longitud del canal (m)			(En caso de elegir el problema del canal)
+2	Altura del canal (m)			(En caso de elegir el problema del canal)
+1.0	Profundidad del canal (m)			(En caso de elegir el problema del canal)
+
+
+

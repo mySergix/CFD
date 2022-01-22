@@ -1,0 +1,21 @@
+Datos sobre la las propiedades físicas del problema a simular
+(No cambiar el formato)
+
+Propiedades en el Inlet
+5.0	Velocidad Horizontal de Flujo Libre (Uref) (m/s) 
+
+0.0	Velocidad Vertical de Flujo Libre (Vref) (m/s) 
+
+1.225	Densidad de Flujo Libre (Kg/m3)
+
+293.15	Temperatura de Flujo Libre (K)
+
+101325.0	Presión de Flujo Libre (Pa)
+
+1000.0	Calor específico a presión constante (Cp)
+
+1.40	Ratio de calores específicos (Gamma)
+
+289.0	Constante de los gases ideales (J/ Kg K)
+
+

@@ -1,0 +1,28 @@
+set grid
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set logscale x 10
+set logscale y 10
+set xrange[1:100]
+set grid linewidth 3
+set grid linetype 1
+set grid lt rgb "black"
+set format x "%.0t∙10^{%+02T}"
+set format y "%.0t∙10^{%+02T}"
+set key left top font 'Arial-Bold, 20'
+set title "Energy Spectrum Reynolds 40" font 'Arial-Bold, 20'
+set xlabel "k" font 'Arial-Bold, 20'
+set ylabel "Ek" font 'Arial-Bold, 20'
+set key right top
+
+plot 'DNS/Espectro_RE_40_N_20_.txt' using 1:2 w lines lw 3 lt rgb "red" title "DNS N = 20",\
+        'DNS/Espectro_RE_40_N_100_.txt' using 1:2 w lines lw 3 lt rgb "black" title "DNS N = 100",\
+         'Slope2.txt' using 1:2 w lines lw 2 lt rgb "red" dashtype 2 title "Slope -2",\
+         'LES/Espectro_RE_40_N_20_CK1.txt' using 1:2 w lines lw 3 lt rgb "blue" title "LES N = 20 Ck = 0.4223",\
+        'LES/Espectro_RE_40_N_20_CK2.txt' using 1:2 w lines lw 3 lt rgb "green" title "LES N = 20 Ck = 0.05",\
+   
+   
+   
+	
+
+      

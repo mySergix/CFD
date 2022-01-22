@@ -1,0 +1,23 @@
+set grid
+set yrange [0:2.1]
+set xrange [0:1]
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set key left top font 'Arial-Bold, 20'
+set title "Smith Hutton problem results comparison " font 'Arial-Bold, 20'
+set xlabel "X coordinate (m)" font 'Arial-Bold, 20'
+set ylabel "Property value (ϕ)" font 'Arial-Bold, 20'
+set key right top
+
+plot 'AnalyticalResults/SmithHutton_Analytical_1000000.txt' using 1:2 w lines lw 3 lt rgb "green" title "Source result (ρ/Γ = 1E6)",\
+     'NumericalResults/SmithHutton/SmithHutton_SUDS_1000000.txt' using 1:2 w lines lw 3 lt rgb "blue" title "Numerical result (ρ/Γ = 1E6)",\
+     'NumericalResults/SmithHutton/SmithHutton_Symmetry.txt' using 1:2 w lines lw 3 lt rgb "black" title "Symmetric outflow", \
+      'AnalyticalResults/SmithHutton_Analytical_1000.txt' using 1:2 w lines lw 3 lt rgb "magenta" dashtype 5 title "Source result (ρ/Γ = 1E3)",\
+     'NumericalResults/SmithHutton_SUDS_1000.txt' using 1:2 w lines lw 3 lt rgb "purple" dashtype 5 title "Numerical result (ρ/Γ = 1E3)",\
+     'AnalyticalResults/SmithHutton_Analytical_10.txt' using 1:2 w lines lw 3 lt rgb "orange" dashtype 2 title "Source result (ρ/Γ = 10)",\
+     'NumericalResults/SmithHutton_SUDS_10.txt' using 1:2 w lines lw 3 lt rgb "red" dashtype 2 title "Numerical result (ρ/Γ = 10)"
+    
+   
+	
+
+      

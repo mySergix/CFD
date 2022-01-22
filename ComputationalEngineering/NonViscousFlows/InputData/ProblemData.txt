@@ -1,0 +1,17 @@
+Datos sobre el problema a simular
+(No cambiar el formato)
+
+Opciones del Mallado
+250	Nodos totales en la dirección Horizontal (X)
+
+250	Nodos totales en la dirección Vertical (Y)
+
+Tipo de discretización del mallado
+2	Tipo de discretización en la dirección axial		1 -> Discretización uniforme 
+2	Tipo de discretización en la dirección radial		2 -> Discretización tangencial hiperbólica 
+								
+1.5	Stretching de la distribución tangente hiperbólica en dirección axial
+1.5	Stretching de la distribución tangente hiperbólica en dirección radial
+
+Problema
+Canal	Problema a simular (Canal/Canal con Cilindro/Perfil)

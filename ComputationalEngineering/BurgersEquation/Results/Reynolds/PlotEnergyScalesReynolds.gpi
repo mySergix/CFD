@@ -1,0 +1,28 @@
+set grid
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set logscale x 10
+set logscale y 10
+set xrange[1:200]
+set yrange[1e-12:1]
+set grid linewidth 3
+set grid linetype 1
+set grid lt rgb "black"
+set format x "%.0t∙10^{%+02T}"
+set format y "%.0t∙10^{%+02T}"
+set key left top font 'Arial-Bold, 20'
+set title "Energy Spectrum for Different Reynolds" font 'Arial-Bold, 20'
+set xlabel "k" font 'Arial-Bold, 20'
+set ylabel "Ek" font 'Arial-Bold, 20'
+set key right top
+
+plot 'Espectro_RE_1_N_100_.txt' using 1:2 w lines lw 3 lt rgb "red" dashtype 1 title "Reynolds = 1",\
+        'Espectro_RE_5_N_100_.txt' using 1:2 w lines lw 3 lt rgb "blue" dashtype 2 title "Reynolds = 5",\
+        'Espectro_RE_20_N_100_.txt' using 1:2 w lines lw 3 lt rgb "green" dashtype 3 title "Reynolds = 20",\
+         'Espectro_RE_80_N_200_.txt' using 1:2 w lines lw 3 lt rgb "magenta" dashtype 5 title "Reynolds = 80",\
+         'Espectro_RE_200_N_200_.txt' using 1:2 w lines lw 3 lt rgb "black" dashtype 6 title "Reynolds = 200",\
+   
+   
+	
+
+      

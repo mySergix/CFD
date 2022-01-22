@@ -1,0 +1,19 @@
+Datos sobre la las propiedades físicas del problema a simular
+(No cambiar el formato)
+
+Propiedades en el Inlet
+1.0	Velocidad Horizontal de Flujo Libre (Uref) (m/s) 
+
+0.0	Velocidad Vertical de Flujo Libre (Vref) (m/s) 
+
+1000.0	Densidad de Flujo Libre (Kg/m3)
+
+30	Ángulo del FLujo Diagonal (º)
+
+1000	Número de Peclet de la Simulación
+
+1	Valor Phi Izquierda
+
+3	Valor Phi Derecha
+
+

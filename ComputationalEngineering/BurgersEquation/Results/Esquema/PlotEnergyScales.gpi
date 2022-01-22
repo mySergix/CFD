@@ -1,0 +1,25 @@
+set grid
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set logscale x 10
+set logscale y 10
+set xrange[1:200]
+set grid linewidth 3
+set grid linetype 1
+set grid lt rgb "black"
+set format x "%.0t∙10^{%+02T}"
+set format y "%.0t∙10^{%+02T}"
+set key left top font 'Arial-Bold, 20'
+set title "Energy Spectrum Reynolds 200" font 'Arial-Bold, 20'
+set xlabel "k" font 'Arial-Bold, 20'
+set ylabel "Ek" font 'Arial-Bold, 20'
+set key right top
+
+plot 'Espectro_RE_100_N_200_Eu.txt' using 1:2 w lines lw 3 lt rgb "red" dashtype 2 title "DNS Euler",\
+        'Espectro_RE_100_N_200_AB.txt' using 1:2 w lines lw 3 lt rgb "black" dashtype 3 title "DNS Adam Bashforth",\
+       
+   
+   
+	
+
+      

@@ -1,0 +1,16 @@
+set grid
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set key left top font 'Arial-Bold, 20'
+set title "Pressure and Velocities Meshes" font 'Arial-Bold, 20'
+set xlabel "Axial Coordiante (x)" font 'Arial-Bold, 20'
+set ylabel "Radial Coordiante (r)" font 'Arial-Bold, 20'
+
+set pointsize 2
+
+plot 'MallaMP.txt' using 1:2 lc rgb "black" title "Malla Presión",\
+     'MallaMU.txt' using 1:2 lc rgb "blue" title "Malla Velocidad Axial",\
+	'MallaMR.txt' using 1:2 lc rgb "red" title "Malla Velocidad Radial"
+
+
+      

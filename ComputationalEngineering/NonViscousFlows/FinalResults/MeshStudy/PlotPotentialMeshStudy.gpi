@@ -1,0 +1,18 @@
+set grid
+set xrange[40:210]
+set yrange[0:25]
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set key left top font 'Arial-Bold, 20'
+set title "Pottential Flow Mesh Study" font 'Arial-Bold, 20'
+set xlabel "Number of Nodes" font 'Arial-Bold, 20'
+set ylabel "Relative Error (%)" font 'Arial-Bold, 20'
+set key right top
+
+plot 'LinearBoth.txt' using 1:2 w lines lw 3 lt rgb "blue" title "Linear Distribution",\
+     'TangentialBoth.txt' using 1:2 w lines lw 3 lt rgb "black" title "Tangential Distribution"
+   
+   
+	
+
+      

@@ -1,0 +1,10 @@
+Datos sobre la geometría del problema a simular
+(No cambiar el formato)
+
+Geometría del problema
+2.0	Longitud (m)			
+1.0	Altura (m)			
+1.0	Profundidad (m)			
+
+
+

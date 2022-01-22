@@ -1,0 +1,5 @@
+Datos sobre el problema a simular
+(No cambiar el formato)
+
+Alpha
+2.5

@@ -1,0 +1,16 @@
+set grid
+set xrange [0.93:1.05]
+set yrange [30:140]
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 12"
+set key left top font 'Arial-Bold, 20'
+set title "Relaxation Factor study" font 'Arial-Bold, 20'
+set xlabel "Relaxation Factor" font 'Arial-Bold, 20'
+set ylabel "Simulation Time (s)" font 'Arial-Bold, 20'
+set key right top
+
+plot 'SMITH_HUTTON_FR2.txt' using 1:2 w lines lw 3 title "Simulation Time (s)"
+    
+	
+
+      

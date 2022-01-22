@@ -1,0 +1,10 @@
+Datos sobre el problema a simular
+(No cambiar el formato)
+
+NX	
+1   88.104
+3   44.066
+5   0.000
+7   -44.066
+9   -88.105
+

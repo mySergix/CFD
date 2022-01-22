@@ -1,0 +1,17 @@
+set grid
+set xrange [30:210]
+set yrange [0:8]
+set xtics font "Arial-Bold, 15"
+set ytics font "Arial-Bold, 15"
+set key left top font 'Arial-Bold, 20'
+set title "Mesh Influence study" font 'Arial-Bold, 20'
+set xlabel "Number of nodes in the direction" font 'Arial-Bold, 20'
+set ylabel "Mean relative error (%)" font 'Arial-Bold, 20'
+set key right top
+
+plot 'MeshCriteriaX.txt' using 1:2 w lines lw 3 title "X Direction Nodes (NX)",\
+     'MeshCriteriaY.txt' using 1:2 w lines lw 3 title "Y Direction Nodes (NY)", \
+     'MeshCriteriaBoth.txt' using 1:2 w lines lw 3 title "Both Directions Nodes"
+	
+
+      

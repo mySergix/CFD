@@ -1,0 +1,23 @@
+Datos sobre el problema a simular
+(No cambiar el formato)
+
+Opciones del Mallado
+200	Nodos totales en la dirección Horizontal (X)
+
+100	Nodos totales en la dirección Vertical (Y)
+
+Tipo de discretización del mallado
+1	Tipo de discretización en la dirección axial		1 -> Discretización uniforme 
+1	Tipo de discretización en la dirección radial		2 -> Discretización tangencial hiperbólica 
+								
+1.0	Stretching de la distribución tangente hiperbólica en dirección axial
+1.0	Stretching de la distribución tangente hiperbólica en dirección radial
+
+Problema
+4	Problema a simular 					1 -> Problema Unidimensional 1
+								2 -> Problema Unidimensional 2
+								3 -> Problema Flujo Diagonal
+								4 -> Smith-Hutton Problem (Solenoidal Flow)
+								
+Esquema Convectivo a utilizar
+SUDS					
