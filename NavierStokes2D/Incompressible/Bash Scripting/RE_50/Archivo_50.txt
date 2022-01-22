@@ -1,0 +1,1 @@
+Número de Reynolds: 50.000000 

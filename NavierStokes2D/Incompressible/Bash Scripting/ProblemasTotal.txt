@@ -1,0 +1,36 @@
+Problemas y casos de estudio de régimen laminar
+(No cambiar el formato)
+
+Problema Driven Cavity
+100		
+400		
+1000		
+3200		
+5000		
+7500		
+
+Problema Differentially Heated
+1000		
+10000		
+100000		
+1000000		
+10000000
+
+Problema Square Cylinder
+1		
+5		
+10		
+20		
+50		
+70		
+100		
+150		
+175		
+200
+
+FINAL
+
+
+
+
+	
