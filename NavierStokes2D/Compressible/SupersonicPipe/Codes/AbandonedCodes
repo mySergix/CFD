@@ -1,0 +1,197 @@
+
+//Funcion del esquema convectivo
+double Solver::EsquemaConvectivo(double Coordenada1, double Phi1, double Coordenada2, double Phi2, double Coordenada3, double Phi3, double Coordenada4, double Phi4, double CoordenadaCara, double Velocidad, string Esquema){
+	
+	if(Velocidad > 0.0 || (Phi4 == 0.0 && Coordenada4 == 0.0)){
+		XD = Coordenada3;
+		PhiD = Phi3;
+		XC = Coordenada2;
+		PhiC = Phi2;
+		XU = Coordenada1;
+		PhiU = Phi1;
+	}
+	else if (Velocidad < 0.0 || (Phi1 == 0.0 && Coordenada1 == 0.0)){
+		XD = Coordenada2;
+		PhiD = Phi2;
+		XC = Coordenada3;
+		PhiC = Phi3;
+		XU = Coordenada4;
+		PhiU = Phi4;
+	}
+
+	PhC = (PhiC - PhiU)/(PhiD - PhiU);
+	XadC = (XC - XU)/(XD - XU);
+	Xade = (CoordenadaCara - XU)/(XD - XU);
+	
+	if (PhiD != PhiU){
+		if(Esquema == "CDS"){ Phf = ((Xade - XadC)/(1.0 - XadC)) + ((Xade - 1.0)/(XadC - 1.0))*PhC; }
+		else if(Esquema == "UDS"){ Phf = PhC; }
+		else if(Esquema == "SUDS"){ Phf = (Xade/XadC)*PhC; }
+		else if(Esquema == "QUICK"){ Phf = Xade + (((Xade*(Xade - 1.0))/(XadC*(XadC-1.0))))*(PhC - XadC); }
+		else if(Esquema == "SMART"){
+			if(PhC > 0.0 && PhC < XadC/3.0){ Phf = -((Xade*(1.0 - 3.0*XadC + 2.0*Xade))/(XadC*(XadC - 1.0)))*PhC; }	
+			else if(PhC > XadC/6.0 && PhC < (XadC/Xade)*(1.0 + Xade - XadC)){
+				Phf = ((Xade*(Xade - XadC))/(1.0 - XadC)) + ((Xade*(Xade - 1.0))/(XadC*(XadC - 1.0)))*PhC;
+			}
+			else if(PhC > (XadC/Xade)*(1.0 + Xade - XadC) && PhC < 1.0){ Phf = 1.0; }
+			else{ Phf = PhC; }	
+		}
+	
+		
+	}
+	else{ PHI = PhiD; }
+	
+	//Dimensionalizacion
+	PHI = PhiU + (PhiD - PhiU)*Phf;
+
+	}
+
+	return PHI;
+
+}
+
+void Solver::CalculoCoeficientesA(Mesher MESH){
+int i, j;
+
+	//Parte central
+	for(i = 1; i < NA-1; i++){
+		for(j = 1; j < NRad-1; j++){
+			A[i][j][0] = MESH.SupMP[i][j][0]/MESH.DeltasMU[i][j][0]; //aW
+			A[i][j][1] = MESH.SupMP[i][j][1]/MESH.DeltasMU[i+1][j][0];; //aE
+			A[i][j][2] = MESH.SupMP[i][j][2]/MESH.DeltasMR[i][j][1];; //aS
+			A[i][j][3] = MESH.SupMP[i][j][3]/MESH.DeltasMR[i][j+1][1];; //aN
+		}
+	}
+
+	for(i = 1; i < NA-1; i++){
+		//Parte abajo
+		A[i][0][0] = MESH.SupMP[i][0][0]/MESH.DeltasMU[i][0][0]; //aW
+		A[i][0][1] = MESH.SupMP[i][0][1]/MESH.DeltasMU[i+1][0][0];; //aE
+		A[i][0][2] = MESH.SupMP[i][0][2]/MESH.DeltasMR[i][0][1];; //aS
+		A[i][0][3] = MESH.SupMP[i][0][3]/MESH.DeltasMR[i][1][1];; //aN
+
+		//Parte arriba
+		A[i][NRad-1][0] = MESH.SupMP[i][NRad-1][0]/MESH.DeltasMU[i][NRad-1][0]; //aW
+		A[i][NRad-1][1] = MESH.SupMP[i][NRad-1][1]/MESH.DeltasMU[i+1][NRad-1][0];; //aE
+		A[i][NRad-1][2] = MESH.SupMP[i][NRad-1][2]/MESH.DeltasMR[i][NRad-1][1];; //aS
+		A[i][NRad-1][3] = MESH.SupMP[i][NRad-1][3]/MESH.DeltasMR[i][NRad][1];; //aN
+
+	}
+
+	for(j = 1; j < NRad-1; j++){
+		//Parte izquierda
+		A[0][j][0] = MESH.SupMP[0][j][0]/MESH.DeltasMU[0][j][0]; //aW
+		A[0][j][1] = MESH.SupMP[0][j][1]/MESH.DeltasMU[1][j][0];; //aE
+		A[0][j][2] = MESH.SupMP[0][j][2]/MESH.DeltasMR[0][j][1];; //aS
+		A[0][j][3] = MESH.SupMP[0][j][3]/MESH.DeltasMR[0][j+1][1];; //aN
+
+		//Parte derecha
+		A[NA-1][j][0] = MESH.SupMP[NA-1][j][0]/MESH.DeltasMU[NA-1][j][0]; //aW
+		A[NA-1][j][1] = MESH.SupMP[NA-1][j][1]/MESH.DeltasMU[NA][j][0];; //aE
+		A[NA-1][j][2] = MESH.SupMP[NA-1][j][2]/MESH.DeltasMR[NA-1][j][1];; //aS
+		A[NA-1][j][3] = MESH.SupMP[NA-1][j][3]/MESH.DeltasMR[NA-1][j+1][1];; //aN
+	}
+
+	//Esquina abajo izquierda
+	A[0][0][0] = MESH.SupMP[0][0][0]/MESH.DeltasMU[0][0][0]; //aW
+	A[0][0][1] = MESH.SupMP[0][0][1]/MESH.DeltasMU[1][0][0];; //aE
+	A[0][0][2] = MESH.SupMP[0][0][2]/MESH.DeltasMR[0][0][1];; //aS
+	A[0][0][3] = MESH.SupMP[0][0][3]/MESH.DeltasMR[0][1][1];; //aN
+
+	//Esquina abajo derecha
+	A[NA-1][0][0] = MESH.SupMP[NA-1][0][0]/MESH.DeltasMU[NA-1][0][0]; //aW
+	A[NA-1][0][1] = MESH.SupMP[NA-1][0][1]/MESH.DeltasMU[NA][0][0];; //aE
+	A[NA-1][0][2] = MESH.SupMP[NA-1][0][2]/MESH.DeltasMR[NA-1][0][1];; //aS
+	A[NA-1][0][3] = MESH.SupMP[NA-1][0][3]/MESH.DeltasMR[NA-1][1][1];; //aN
+
+	//Esquina arriba izquierda
+	A[0][NRad-1][0] = MESH.SupMP[0][NRad-1][0]/MESH.DeltasMU[0][NRad-1][0]; //aW
+	A[0][NRad-1][1] = MESH.SupMP[0][NRad-1][1]/MESH.DeltasMU[1][NRad-1][0];; //aE
+	A[0][NRad-1][2] = MESH.SupMP[0][NRad-1][2]/MESH.DeltasMR[0][NRad-1][1];; //aS
+	A[0][NRad-1][3] = MESH.SupMP[0][NRad-1][3]/MESH.DeltasMR[0][NRad][1];; //aN
+
+	//Esquina arriba derecha
+	A[NA-1][NRad-1][0] = MESH.SupMP[NA-1][NRad-1][0]/MESH.DeltasMU[NA-1][NRad-1][0]; //aW
+	A[NA-1][NRad-1][1] = MESH.SupMP[NA-1][NRad-1][1]/MESH.DeltasMU[NA][NRad-1][0];; //aE
+	A[NA-1][NRad-1][2] = MESH.SupMP[NA-1][NRad-1][2]/MESH.DeltasMR[NA-1][NRad-1][1];; //aS
+	A[NA-1][NRad-1][3] = MESH.SupMP[NA-1][NRad-1][3]/MESH.DeltasMR[NA-1][NRad][1];; //aN
+	
+
+	//Cálculo de aP 
+	for(i = 0; i < NA; i++){
+		for(j = 0; j < NRad; j++){
+			A[i][j][4] = A[i][j][0] + A[i][j][1] + A[i][j][2] + A[i][j][3]; //aP = aW + aE + aS + aN
+		}
+	}
+
+}
+
+
+
+//Cálculo de las FT
+void Solver::CalculoFT(Mesher MESH){
+int i, j;
+
+	
+	//Esquina abajo izda
+	FTpresent[0][0] = (K/(Rho*Cp*MESH.VolMP[0][0]))*( (Tpres[1][0] - Tpres[0][0])*(MESH.SupMP[0][0][1]*cos(MESH.AngleMU[1][0]))/MESH.DeltasMU[1][0][0]			
+		- (Tpres[0][0] - Tleft[0])*(MESH.SupMP[0][0][0]*cos(MESH.AngleMU[0][0]))/MESH.DeltasMU[0][0][0]     +
+			(Tpres[0][1] - Tpres[0][0])*(MESH.SupMP[0][0][4]*cos(MESH.AngleMR[0][1]))/MESH.DeltasMR[0][1][1]  -
+			(Tpres[0][0] - Tdown[0])*(MESH.SupMP[0][0][3]*cos(MESH.AngleMR[0][0]))/MESH.DeltasMR[0][0][1]);
+	//Esquina arriba izda
+	FTpresent[0][NRad-1] = (K/(Rho*Cp)*MESH.VolMP[0][NRad-1])*( (Tpres[1][NRad-1] - Tpres[0][NRad-1])*(MESH.SupMP[0][NRad-1][1]*cos(MESH.AngleMU[1][NRad-1]))/MESH.DeltasMU[1][NRad-1][0] 	
+			- (Tpres[0][NRad-1] - Tleft[NRad-1])*(MESH.SupMP[0][NRad-1][0]*cos(MESH.AngleMU[0][NRad-1]))/MESH.DeltasMU[0][NRad-1][0]    +
+			(Tup[0] - Tpres[0][NRad-1])*(MESH.SupMP[0][NRad-1][4]*cos(MESH.AngleMR[0][NRad]))/MESH.DeltasMR[0][NRad][1]  -
+			(Tpres[0][NRad-1] - Tpres[0][NRad-2])*(MESH.SupMP[0][NRad-1][3]*cos(MESH.AngleMR[0][NRad-1]))/MESH.DeltasMR[0][NRad-1][1]);
+	//Esquina abajo dra
+	FTpresent[NA-1][0] = (K/(Rho*Cp*MESH.VolMP[NA-1][0]))*( (Tright[0] - Tpres[NA-1][0])*(MESH.SupMP[NA-1][0][1]*cos(MESH.AngleMU[NA][0]))/MESH.DeltasMU[NA][0][0] 
+			- (Tpres[NA-1][0] - Tpres[NA-2][0])*(MESH.SupMP[NA-1][0][0]*cos(MESH.AngleMU[NA-1][0]))/MESH.DeltasMU[NA-1][0][0]    +
+			(Tpres[NA-1][1] - Tpres[NA-1][0])*(MESH.SupMP[NA-1][0][4]*cos(MESH.AngleMR[NA-1][1]))/MESH.DeltasMR[NA-1][1][1]  -
+			(Tpres[NA-1][0] - Tdown[NA-1])*(MESH.SupMP[NA-1][0][3]*cos(MESH.AngleMR[NA-1][0]))/MESH.DeltasMR[NA-1][0][1]);
+	//Esquina arriba dra
+	FTpresent[NA-1][NRad-1] = (K/(Rho*Cp*MESH.VolMP[NA-1][NRad-1]))*( (Tright[NRad-1] - Tpres[NA-1][NRad-1])*(MESH.SupMP[NA-1][NRad-1][1]*cos(MESH.AngleMU[NA][NRad-1]))/MESH.DeltasMU[NA][NRad-1][0] 	
+			- (Tpres[NA-1][NRad-1] - Tpres[NA-2][NRad-1])*(MESH.SupMP[NA-1][NRad-1][0]*cos(MESH.AngleMU[NA-1][NRad-1]))/MESH.DeltasMU[NA-1][NRad-1][0]    +
+			(Tup[NA-1] - Tpres[NA-1][NRad-1])*(MESH.SupMP[NA-1][NRad-1][4]*cos(MESH.AngleMR[NA-1][NRad]))/MESH.DeltasMR[NA-1][NRad][1]  -
+			(Tpres[NA-1][NRad-1] - Tpres[NA-1][NRad-2])*(MESH.SupMP[NA-1][NRad-1][3]*cos(MESH.AngleMR[NA-1][NRad-1]))/MESH.DeltasMR[NA-1][NRad-1][1]);
+	
+	for(i = NA-2; i >= 1; i--){
+		//Parte abajo
+		FTpresent[i][0] = (K/(Rho*Cp*MESH.VolMP[i][0]))*( (Tpres[i+1][0] - Tpres[i][0])*(MESH.SupMP[i][0][1]*cos(MESH.AngleMU[i+1][0]))/MESH.DeltasMU[i+1][0][0] 	
+			- (Tpres[i][0] - Tpres[i-1][0])*(MESH.SupMP[i][0][0]*cos(MESH.AngleMU[i][0]))/MESH.DeltasMU[i][0][0]    +
+			(Tpres[i][1] - Tpres[i][0])*(MESH.SupMP[i][0][4]*cos(MESH.AngleMR[i][1]))/MESH.DeltasMR[i][1][1]  -
+			(Tpres[i][0] - Tdown[i])*(MESH.SupMP[i][0][3]*cos(MESH.AngleMR[i][0]))/MESH.DeltasMR[i][0][1]);
+			
+		//Parte arriba
+		FTpresent[i][NRad-1] = (K/(Rho*Cp*MESH.VolMP[i][NRad-1]))*( (Tpres[i+1][NRad-1] - Tpres[i][NRad-1])*(MESH.SupMP[i][NRad-1][1]*cos(MESH.AngleMU[i+1][NRad-1]))/MESH.DeltasMU[i+1][NRad-1][0] 	
+			- (Tpres[i][NRad-1] - Tpres[i-1][NRad-1])*(MESH.SupMP[i][NRad-1][0]*cos(MESH.AngleMU[i][NRad-1]))/MESH.DeltasMU[i][NRad-1][0]    +
+			(Tup[i] - Tpres[i][NRad-1])*(MESH.SupMP[i][NRad-1][4]*cos(MESH.AngleMR[i][NRad]))/MESH.DeltasMR[i][NRad][1]  -
+			(Tpres[i][NRad-1] - Tpres[i][NRad-2])*(MESH.SupMP[i][NRad-1][3]*cos(MESH.AngleMR[i][NRad-1]))/MESH.DeltasMR[i][NRad-1][1]);
+	}
+	
+	
+	for(j = NRad-2; j >= 1; j--){
+		//Parte izda
+		FTpresent[0][j] = (K/(Rho*Cp*MESH.VolMP[0][j]))*( (Tpres[1][j] - Tpres[0][j])*(MESH.SupMP[0][j][1]*cos(MESH.AngleMU[1][j]))/MESH.DeltasMU[1][j][0] 	
+			- (Tpres[0][j] - Tleft[j])*(MESH.SupMP[0][j][0]*cos(MESH.AngleMU[0][j]))/MESH.DeltasMU[0][j][0]    +
+			(Tpres[0][j+1] - Tpres[0][j])*(MESH.SupMP[0][j][4]*cos(MESH.AngleMR[0][j+1]))/MESH.DeltasMR[0][j+1][1]  -
+			(Tpres[0][j] - Tpres[0][j-1])*(MESH.SupMP[0][j][3]*cos(MESH.AngleMR[0][j]))/MESH.DeltasMR[0][j][1]);
+
+		//Parte dra
+		FTpresent[NA-1][j] = (K/(Rho*Cp*MESH.VolMP[NA-1][j]))*( (Tright[j] - Tpres[NA-1][j])*(MESH.SupMP[NA-1][j][1]*cos(MESH.AngleMU[NA][j]))/MESH.DeltasMU[NA][j][0] 	
+			- (Tpres[NA-1][j] - Tpres[NA-2][j])*(MESH.SupMP[NA-1][j][0]*cos(MESH.AngleMU[NA-1][j]))/MESH.DeltasMU[NA-1][j][0]    +
+			(Tpres[NA-1][j+1] - Tpres[NA-1][j])*(MESH.SupMP[NA-1][j][4]*cos(MESH.AngleMR[NA-1][j+1]))/MESH.DeltasMR[NA-1][j+1][1]  -
+			(Tpres[NA-1][j] - Tpres[NA-1][j-1])*(MESH.SupMP[NA-1][j][3]*cos(MESH.AngleMR[NA-1][j]))/MESH.DeltasMR[NA-1][j][1]);
+
+	}
+	
+	//Centro
+	for(i = 1; i < NA-1; i++){
+		for(j = 1; j < NRad-1; j++){
+			FTpresent[i][j] = (K/(Rho*Cp*MESH.VolMP[i][j]))*( (Tpres[i+1][j] - Tpres[i][j])*(MESH.SupMP[i][j][1]*cos(MESH.AngleMU[i+1][j]))/MESH.DeltasMU[i+1][j][0] 	
+			- (Tpres[i][j] - Tpres[i-1][j])*(MESH.SupMP[i][j][0]*cos(MESH.AngleMU[i][j]))/MESH.DeltasMU[i][j][0]    +
+			(Tpres[i][j+1] - Tpres[i][j])*(MESH.SupMP[i][j][4]*cos(MESH.AngleMR[i][j+1]))/MESH.DeltasMR[i][j+1][1]  -
+			(Tpres[i][j] - Tpres[i][j-1])*(MESH.SupMP[i][j][3]*cos(MESH.AngleMR[i][j]))/MESH.DeltasMR[i][j][1]);
+		}
+	}
+
+}
