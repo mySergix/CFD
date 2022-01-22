@@ -1,0 +1,32 @@
+Número de Rayleigh: 640000000.000000 
+
+Simulación 2D 
+Aspect ratio de la cavity (L3/L2): 4.000000 
+Dimensión caracteristica: 4.000000 
+Densidad del mallado: 156x312 
+Discretización utilizada: 2x2 
+
+Resultados: 
+Número Nusselt medio: 12.412841 
+
+Número de Nusselt máximo: 42.693912 
+Posición Y del número de Nusselt máximo (m): 0.017978 
+
+Número de Nusselt mínimo: 0.663144 
+Posición Y del número de Nusselt mínimo (m): 3.998064 
+
+Plano horizontal a media altura (Y = 2.000000 m): 
+Velocidad U (u2) máxima (m/s): 0.009913 
+Posicion X (x2) de la velocidad U (u2) máxima (m): 0.283805 
+Velocidad V (u3) máxima (m/s): 2.324430 
+Posicion X (x2) de la velocidad V (u3) máxima (m): 0.029946 
+Temperatura máxima (K): 0.989523 
+Posicion X (x2) de la temperatura máxima (m): 0.000977 
+
+Plano vertical a media anchura (X = 0.500000 m): 
+Velocidad U (u2) máxima (m/s): 0.472873 
+Posicion Y (x3) de la velocidad U (u2) máxima (m): 3.795491 
+Velocidad V (u3) máxima (m/s): 0.182769 
+Posicion Y (x3) de la velocidad V (u3) máxima (m): 0.261916 
+Temperatura máxima (K): 0.890231 
+Posicion Y (x3) de la temperatura máxima (m): 3.905674 
