@@ -1,0 +1,10 @@
+set xrange[0:50]
+set yrange[0:8]
+
+set pointsize 2
+
+plot '/home/sergiogus/Desktop/CTTC/NavierStokes/Resultados/Malla/M1.txt' using 1:2 lc rgb "blue",\
+	'/home/sergiogus/Desktop/CTTC/NavierStokes/Resultados/Malla/M2.txt' using 1:2 lc rgb "red",\
+	'/home/sergiogus/Desktop/CTTC/NavierStokes/Resultados/Malla/M3.txt' using 1:2 lc rgb "black"
+
+

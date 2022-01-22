@@ -1,0 +1,6 @@
+set xrange [0:50]
+set yrange [0:8]
+
+plot '/home/sergiogus/Desktop/CTTC/NavierStokes/Resultados/Velocidades/Velocidades.txt' using 1:2:3:4 with vectors filled head lw 0.2 
+
+
